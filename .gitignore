@@ -1,0 +1,7 @@
+.history
+**/node_modules
+src/solidity/**/build
+.DS_Store
+.vscode
+app.log
+**/*/app.log

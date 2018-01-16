@@ -1,0 +1,15 @@
+{
+  "name": "propertycoin",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "zeppelin-solidity": "^1.5.0"
+  }
+}
