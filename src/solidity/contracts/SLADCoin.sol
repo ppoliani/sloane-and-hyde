@@ -11,10 +11,13 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 contract SLADCoin is StandardToken, DetailedERC20, Ownable {
   uint256 public totalSupply;
   mapping(address => bool) public whitelist;
-  address[] public addresses;
+  address[] public balanceAddresses;
 
-  function getAllAddresses() public returns (address[]) {
-    return addresses;
+  function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() {
+    totalSupply = _supply; // * (10 ** uint256(decimals));
+    whitelist[msg.sender] = true;
+    balances[msg.sender] = totalSupply;
+    balanceAddresses.push(msg.sender);
   }
 
   modifier isWhitelisted(address addr) {
@@ -22,19 +25,16 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
     _;
   }
 
+  function getBalanceAddresses() public returns(address[]) {
+    return balanceAddresses;
+  }
+
   function transfer(address _to, uint256 _value) isWhitelisted(_to) public returns (bool) {
     assert(super.transfer(_to, _value));
     
     if(balanceOf(_to) == 0x0) {
-      addresses.push(_to);
+      balanceAddresses.push(_to);
     }
-  }
-
-  function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() {
-    totalSupply = _supply; // * (10 ** uint256(decimals));
-    whitelist[msg.sender] = true;
-    balances[msg.sender] = totalSupply;
-    addresses.push(msg.sender);
   }
 
   //use only one function to add/remove addresses instead of two separated ones.
