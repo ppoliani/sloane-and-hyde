@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {autobind} from 'core-decorators';
 import Paper from 'material-ui/Paper';
 import {Grid, Col, Row} from 'react-flexbox-grid';
 import Header from './Header';

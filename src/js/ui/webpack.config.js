@@ -40,8 +40,7 @@ module.exports = () => {
         'react-dom',
         'react-redux',
         'immutable',
-        'whatwg-fetch',
-        'core-decorators'
+        'whatwg-fetch'
       ]
     },
 

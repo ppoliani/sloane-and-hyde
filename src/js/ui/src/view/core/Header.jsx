@@ -7,7 +7,7 @@ const Header =  () => (
   <AppBar position='static' color='default'>
     <Toolbar>
       <Typography type='title' color='inherit'>
-        Title
+        Sloane And Hyde Token
       </Typography>
     </Toolbar>
   </AppBar>
