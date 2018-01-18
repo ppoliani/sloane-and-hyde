@@ -20,9 +20,9 @@ class TabContainer extends Component {
 
     return (
       <AppBar position='static'>
-        <Tabs value={selectedTab} onChange={this.handleChange}>
+        <Tabs value={selectedTab} onChange={this.handleChange} centered>
           <Tab label='Balances' />
-          <Tab label='White List' />
+          <Tab label='Whitelist' />
           <Tab label='Transfer' />
         </Tabs>
         {selectedTab === 0 && <BalanceTab token={token} getBalanceOf={getBalanceOf} />}
