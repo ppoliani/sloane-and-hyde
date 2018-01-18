@@ -22,11 +22,13 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
   }
 
   function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() {
-    totalSupply = _supply * (10 ** uint256(decimals));
+    totalSupply = _supply; // * (10 ** uint256(decimals));
+    whitelist[msg.sender] = true;
     balances[msg.sender] = totalSupply;
   }
 
-  function manageWhitelist(address addr, bool status) returns (bool) {
+  //use only one function to add/remove addresses instead of two separated ones.
+  function manageWhitelist(address addr, bool status) onlyOwner() returns (bool) { 
     whitelist[addr] = status;
 
     return true;
