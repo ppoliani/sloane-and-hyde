@@ -9,6 +9,9 @@ module.exports = () => {
   const isProd = process.env.NODE_ENV === 'production';
 
   const plugins = [
+    new webpack.DefinePlugin({
+      WEB3_HTTP_PROVIDER: JSON.stringify('http://localhost:8545')
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity,

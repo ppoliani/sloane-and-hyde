@@ -9,7 +9,7 @@ const get = () => web3.matchWith({
   Nothing: () => {
     const provider = web3 !== undefined 
       ?  web3.currentProvider
-      : new Web3.providers.HttpProvider("http://localhost:8545");
+      : new Web3.providers.HttpProvider(process.env.WEB3_HTTP_PROVIDER);
       
     const _web3 = new Web3(provider);
     web3 = Maybe.fromNullable(_web3);
