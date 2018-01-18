@@ -2,56 +2,60 @@ var SLADCoin = artifacts.require("SLADCoin");
 
 contract('SLADCoin', function (accounts) {
 
-    it("should put SLADCoin in the first account", function () {
-        return SLADCoin.deployed().then(function (instance) {
-            return instance.balanceOf.call(accounts[0]);
-        }).then(function (balance) {
-            assert.equal(balance.valueOf(), 1000000, "1000000 wasn't in the first account");
-        });
-    });
+            it("should put SLADCoin in the first account", function () {
+                return SLADCoin.deployed().then(function (instance) {
+                    return instance.balanceOf.call(accounts[0]);
+                }).then(function (balance) {
+                    assert.equal(balance.valueOf(), 1000000, "1000000 wasn't in the first account");
+                });
+            });
 
-    it("should change whitelist status", function() {
-        return SLADCoin.deployed().then(function (instance) {
-            meta = instance;
-            return meta.whitelist.call(accounts[0]);
-        }).then(function (balance) {
+            it("should whitelist owner", function () {
+                return SLADCoin.deployed().then(function (instance) {
+                    meta = instance;
+                    assert.equal(meta.whitelist.call(accounts[1]), false, "Owner was not whitelisted")
+                });
+            });
+            
+            it("should update whitelist", function() {
+                return SLADCoin.deployed().then(instance => {
+                    meta = instance;
+                })
+            })
 
-            assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-    })
+                // it("should send coin correctly", function () {
+                //     var meta;
 
-    // it("should send coin correctly", function () {
-    //     var meta;
+                //     // Get initial balances of first and second account.
+                //     var account_one = accounts[0];
+                //     var account_two = accounts[1];
 
-    //     // Get initial balances of first and second account.
-    //     var account_one = accounts[0];
-    //     var account_two = accounts[1];
+                //     var account_one_starting_balance;
+                //     var account_two_starting_balance;
+                //     var account_one_ending_balance;
+                //     var account_two_ending_balance;
 
-    //     var account_one_starting_balance;
-    //     var account_two_starting_balance;
-    //     var account_one_ending_balance;
-    //     var account_two_ending_balance;
+                //     var amount = 10;
 
-    //     var amount = 10;
+                //     return SLADCoin.deployed().then(function (instance) {
+                //         meta = instance;
+                //         return meta.getBalance.call(account_one);
+                //     }).then(function (balance) {
+                //         account_one_starting_balance = balance.toNumber();
+                //         return meta.getBalance.call(account_two);
+                //     }).then(function (balance) {
+                //         account_two_starting_balance = balance.toNumber();
+                //         return meta.sendCoin(account_two, amount, { from: account_one });
+                //     }).then(function () {
+                //         return meta.getBalance.call(account_one);
+                //     }).then(function (balance) {
+                //         account_one_ending_balance = balance.toNumber();
+                //         return meta.getBalance.call(account_two);
+                //     }).then(function (balance) {
+                //         account_two_ending_balance = balance.toNumber();
 
-    //     return SLADCoin.deployed().then(function (instance) {
-    //         meta = instance;
-    //         return meta.getBalance.call(account_one);
-    //     }).then(function (balance) {
-    //         account_one_starting_balance = balance.toNumber();
-    //         return meta.getBalance.call(account_two);
-    //     }).then(function (balance) {
-    //         account_two_starting_balance = balance.toNumber();
-    //         return meta.sendCoin(account_two, amount, { from: account_one });
-    //     }).then(function () {
-    //         return meta.getBalance.call(account_one);
-    //     }).then(function (balance) {
-    //         account_one_ending_balance = balance.toNumber();
-    //         return meta.getBalance.call(account_two);
-    //     }).then(function (balance) {
-    //         account_two_ending_balance = balance.toNumber();
-
-    //         assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-    //         assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
-    //     });
-    // });
-});
+                //         assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
+                //         assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
+                //     });
+                // });
+            });
