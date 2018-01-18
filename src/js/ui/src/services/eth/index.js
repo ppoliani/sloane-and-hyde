@@ -1,20 +1,20 @@
-const Web3 = require('web3')
-const Maybe = require('folktale/maybe')
-const {prop} = require('../fn')
+import Web3 from 'web3'
+import Maybe from 'folktale/maybe'
+import {prop} from '../fn'
 
-let web3 = Maybe.Nothing();
+let _web3 = Maybe.Nothing();
 
-const get = () => web3.matchWith({
+const getWeb3 = () => _web3.matchWith({
   Just: prop('value'),
   Nothing: () => {
     const provider = web3 !== undefined 
       ?  web3.currentProvider
       : new Web3.providers.HttpProvider(process.env.WEB3_HTTP_PROVIDER);
       
-    const _web3 = new Web3(provider);
-    web3 = Maybe.fromNullable(_web3);
-    return _web3;
+    const _web3Inst = new Web3(provider);
+    _web3 = Maybe.fromNullable(_web3Inst);
+    return _web3Inst;
   }
 });
 
-module.exports = get;
+export default getWeb3;

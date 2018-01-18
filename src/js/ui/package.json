@@ -30,6 +30,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
+    "es6-promisify": "^5.0.0",
     "folktale": "^2.0.1",
     "immutable": "^3.8.2",
     "material-ui": "^1.0.0-beta.29",
