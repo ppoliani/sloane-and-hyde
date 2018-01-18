@@ -8,10 +8,10 @@ export default (NestedComponent, props={}) => class LayoutComponent extends Comp
     return (
       <div>
         <Header  />
-        <div className="main-content">
-          <Paper className='main-content__page'>
+        <div className='main-content'>
+          <Paper className='main-content__page' elevation={4}>
             <Grid fluid>
-              <Row middle="xs">
+              <Row middle='xs'>
                 <Col xs>
                   <NestedComponent {...props}/>
                 </Col>
