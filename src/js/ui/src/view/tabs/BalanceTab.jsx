@@ -3,6 +3,7 @@ import Maybe from 'folktale/maybe'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
+import {Grid, Col, Row} from 'react-flexbox-grid';
 import {CircularProgress} from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
@@ -47,19 +48,25 @@ class BalanceTab extends Component {
 
   renderForm() {
     return (
-      <div>
-        <TextField 
-          id='name'
-          margin='normal' 
-          label='Account'
-          value={this.state.account}
-          onChange={this.onAccountChange}
-        />
-        <Button raised onClick={this.getBalanceOf}>Show Balance</Button>
+      <Grid>
+        <Row>
+          <Col>
+            <TextField 
+              id='name'
+              margin='normal' 
+              label='Account'
+              value={this.state.account}
+              onChange={this.onAccountChange}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Button raised onClick={this.getBalanceOf}>Show Balance</Button>
+        </Row>
         <div>
           {this.renderBalance()}
         </div>
-      </div>
+      </Grid>
     )
   }
 

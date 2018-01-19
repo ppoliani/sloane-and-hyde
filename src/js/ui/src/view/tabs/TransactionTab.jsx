@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TabContent from './TabContent'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import {Grid, Col, Row} from 'react-flexbox-grid'
 
 class TransactionTab extends Component {
   state = {
@@ -23,24 +24,33 @@ class TransactionTab extends Component {
     return (
       <TabContent>
         Transaction
-        <br />
-        <TextField
-          id='toAccount'
-          margin='normal'
-          label='To Account'
-          value={this.state.toAccount}
-          onChange={this.onAccountChange}
-        />
-        <TextField
-          id='amount'
-          margin='normal'
-          label='Amount'
-          value={this.state.amount}
-          onChange={this.onAccountChange}
-        />
-        <br />
-        <Button raised onClick={this.transfer}>Transfer</Button>
-
+        <Grid>
+          <Row middle='xs'>
+            <Col xs={6}>
+              <TextField
+                id='toAccount'
+                margin='normal'
+                label='To Account'
+                value={this.state.toAccount}
+                onChange={this.onAccountChange}
+              />
+            </Col> 
+            <Col xs={6}>
+              <TextField
+                id='amount'
+                margin='normal'
+                label='Amount'
+                value={this.state.amount}
+                onChange={this.onAccountChange}
+              />
+            </Col>
+          </Row>
+          <Row end='xs'>
+            <Col>
+              <Button raised onClick={this.transfer}>Transfer</Button>
+            </Col>
+          </Row>
+        </Grid>  
       </TabContent>
     )
   }
