@@ -10,8 +10,8 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
  */
 contract SLADCoin is StandardToken, DetailedERC20, Ownable {
   uint256 public totalSupply;
-  mapping(address => WhitelistData) public whitelist;
-  address[] public whitelistAddreses;
+  mapping(address => WhitelistData) private whitelist;
+  address[] private whitelistAddreses;
 
   struct WhitelistData {
     bool status;
@@ -29,7 +29,11 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
     _;
   }
 
-  function getWhitelistAddresses() public returns(address[]) {
+  function getWhitelist(address addr) public view returns (bool, uint256) {
+    return (whitelist[addr].status, whitelist[addr].index);
+  }
+
+  function getWhitelistAddresses() public view returns(address[]) {
     return whitelistAddreses;
   }
 
@@ -39,7 +43,7 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
   }
 
   //use only one function to add/remove addresses instead of two separated ones.
-  function manageWhitelist(address addr, bool status) onlyOwner() returns (bool) { 
+  function manageWhitelist(address addr, bool status) onlyOwner() public returns (bool) { 
     // Insert a new addr to the whitelist
     if(whitelistAddreses[whitelist[addr].index] != addr) {
       whitelist[addr] = WhitelistData(status, whitelistAddreses.push(addr) - 1);
@@ -50,5 +54,4 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
 
     return true;
   }
-
 }

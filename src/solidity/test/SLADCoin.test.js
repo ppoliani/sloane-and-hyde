@@ -10,18 +10,18 @@ contract('SLADCoin', accounts => {
 
   it('should whitelist owner', async () => {
     const instance = await SLADCoin.deployed()
-    const res = await instance.whitelist.call(accounts[0]);
+    const res = await instance.getWhitelist.call(accounts[0]);
 
     assert.equal(res[0], true, 'Owner was not whitelisted');
   });
 
   it('should update whitelist', async () => {
     const instance = await SLADCoin.deployed();
-    const res = await instance.whitelist.call(accounts[1]);
+    const res = await instance.getWhitelist.call(accounts[1]);
     assert.equal(res[0], false, 'Account 1 is correctly NOT whitelisted');
 
     await instance.manageWhitelist(accounts[1], true);
-    const res2 = await instance.whitelist.call(accounts[1]);
+    const res2 = await instance.getWhitelist.call(accounts[1]);
 
     assert.equal(res2[0], true, 'Account is correctly whitelisted');
   });
