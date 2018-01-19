@@ -24,10 +24,13 @@ export const getAllBalances = async () => {
       call: partial(getBalanceOf, addr)
     }));
 
-    const balances = await whitelistAddresses.reduce(async (acc, addr) => {
+    const balances = whitelistAddresses.reduce(async (acc, addr) => {
       const balance = await getBalanceOf(addr);
-      return [...acc, {addr, balance: balance.toNumber()}]
-    }, []);
+      return {
+        ...acc,
+        [addr]: balance.toNumber()
+      }
+    }, {});
 
     return balances;
   }
