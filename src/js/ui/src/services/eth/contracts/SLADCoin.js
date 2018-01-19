@@ -2,7 +2,7 @@ import Maybe from 'folktale/maybe'
 import sladCoinContractDefinition from '../../../../../../solidity/build/contracts/SLADCoin.json'
 import getWeb3 from '../'
 
-const CONTRACT_ADDR = '0x4375a5b741dfcc7c7752fdd66b4ce09cfddc711d';
+const CONTRACT_ADDR = '0x91c1bec5c14aa60863f069bb862aa2fe5c01a1cd';
 const contract = getWeb3().eth.contract(sladCoinContractDefinition.abi).at(CONTRACT_ADDR);
 
 // const extendedContract = Object.assign({}, contract, {
