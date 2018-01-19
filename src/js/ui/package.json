@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "chart.js": "^2.7.1",
     "classnames": "^2.2.5",
     "es6-promisify": "^5.0.0",
     "folktale": "^2.0.1",
@@ -36,6 +37,7 @@
     "material-ui": "^1.0.0-beta.29",
     "material-ui-icons": "^1.0.0-beta.17",
     "react": "^16.2.0",
+    "react-chartjs-2": "^2.7.0",
     "react-dom": "^16.2.0",
     "react-flexbox-grid": "^2.0.0",
     "react-hot-loader": "^3.1.3",

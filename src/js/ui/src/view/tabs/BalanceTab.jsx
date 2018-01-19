@@ -6,6 +6,7 @@ import Typography from 'material-ui/Typography'
 import {CircularProgress} from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
+import PieChart from "../charts/pieChart";
 
 class BalanceTab extends Component {
   state = {
@@ -66,6 +67,7 @@ class BalanceTab extends Component {
     return (
       <TabContent>
         {this.renderForm()}
+        <PieChart balances={this.props.balances} pro={"123"}/>
       </TabContent>
     )
   }

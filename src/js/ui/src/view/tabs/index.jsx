@@ -16,7 +16,7 @@ class TabContainer extends Component {
 
   render() {
     const {selectedTab} = this.state;
-    const {token, getBalanceOf} = this.props;
+    const {token, getBalanceOf, balances} = this.props;
 
     return (
       <AppBar position='static'>
@@ -25,7 +25,7 @@ class TabContainer extends Component {
           <Tab label='Whitelist' />
           <Tab label='Transfer' />
         </Tabs>
-        {selectedTab === 0 && <BalanceTab token={token} getBalanceOf={getBalanceOf} />}
+        {selectedTab === 0 && <BalanceTab token={token} getBalanceOf={getBalanceOf} balances={balances} />}
         {selectedTab === 1 && <WhiteListTab />}
         {selectedTab === 2 && <TransactionTab />}
       </AppBar>
