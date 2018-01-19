@@ -20,7 +20,7 @@ export const transfer = async (to, amount) => {
     const accounts = getAccounts();
     const transfer = promisify(SLADCoinContract.transfer);
     console.log(`transfering ${amount} to ${to}`)
-    return await transfer(to, amount, {from: accounts[0]});
+    return await transfer(to, Number(amount), {from: accounts[0]});
   }
   catch (err) {
     console.log('Error while transfering balance', err);
