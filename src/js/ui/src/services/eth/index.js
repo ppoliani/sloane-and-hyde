@@ -4,7 +4,7 @@ import {prop} from '../fn'
 
 let _web3 = Maybe.Nothing();
 
-const getWeb3 = () => _web3.matchWith({
+export const getWeb3 = () => _web3.matchWith({
   Just: prop('value'),
   Nothing: () => {
     const provider = web3 !== undefined 
@@ -17,4 +17,5 @@ const getWeb3 = () => _web3.matchWith({
   }
 });
 
+export const getAccounts = () => getWeb3().eth.accounts;
 export default getWeb3;

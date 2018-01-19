@@ -3,6 +3,7 @@ import promisify from 'es6-promisify'
 import {Map} from 'immutable'
 import {partial} from '../../services/fn'
 import SLADCoinContract from '../../services/eth/contracts/SLADCoin'
+import {getAccounts} from '../../services/eth'
 
 export const getBalanceOf = async account => {
   try {
@@ -16,10 +17,10 @@ export const getBalanceOf = async account => {
 
 export const transfer = async (to, amount) => {
   try {
+    const accounts = getAccounts();
     const transfer = promisify(SLADCoinContract.transfer);
-    
     console.log(`transfering ${amount} to ${to}`)
-    return await transfer(to, amount);
+    return await transfer(to, amount, {from: accounts[0]});
   }
   catch (err) {
     console.log('Error while transfering balance', err);
