@@ -67,7 +67,7 @@ class BalanceTab extends Component {
     return (
       <TabContent>
         {this.renderForm()}
-        <PieChart balances={this.props.balances} pro={"123"}/>
+        <PieChart balances={this.props.balances} />
       </TabContent>
     )
   }

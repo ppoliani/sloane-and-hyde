@@ -30,21 +30,25 @@ var data = {
 
 export default class PieChartFinal extends Component {
     prepareData = () => {
+        if(this.props.balances.length === 0){
+            return
+        }
+
         const addresses = Object.keys(this.props.balances)
-
-        addresses.reduce((prev, next) => {
-            return [
-                ...prev,
-                this.props.balances[next]
-            ]
-        }, [])
-
-        // this.setState({
-        //     data: 
-        // })
+        const balances = addresses.map(address => this.props.balances[address])
+        const colors = addresses.map(() => '#' + (Math.random() * 0xFFFFFF << 0).toString(16))
+        
+        const finalData = {
+            labels: addresses,
+            datasets: [{
+                data: balances,
+                backgroundColor: colors
+            }]
+        };
+        return finalData
     }
 
     render() {
-        return <Doughnut data={data} />
+        return <Doughnut data={this.prepareData()} />
     }
 }
