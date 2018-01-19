@@ -4,23 +4,34 @@ import TabContainer from '../tabs'
 
 class Home extends Component {
   state = {
-    balances: []
+    balances: [],
+    selectedTab: 0
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadData();  
+  }
+
+  async loadData() {
     const {getAllBalances} = this.props;
     const balances = await getAllBalances();
 
     this.setState({balances})
   }
 
+  handleTabChange = (event, selectedTab) => {
+    this.setState({selectedTab});
+  }
+
   render() {
     const {getBalanceOf, transfer} = this.props;
-    const {balances} = this.state;
+    const {balances, selectedTab} = this.state;
 
     return (
       <div className='page'>
         <TabContainer 
+          handleTabChange={this.handleTabChange}
+          selectedTab={selectedTab}
           balances={balances}
           getBalanceOf={getBalanceOf}
           transfer={transfer}

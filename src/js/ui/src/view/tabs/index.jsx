@@ -6,26 +6,17 @@ import WhiteListTab from './WhiteListTab'
 import TransactionTab from './TransactionTab'
 
 class TabContainer extends Component {
-  state = {
-    selectedTab: 0
-  }
-
-  handleChange = (event, selectedTab) => {
-    this.setState({selectedTab});
-  }
-
   render() {
-    const {selectedTab} = this.state;
-    const {token, getBalanceOf, balances, transfer} = this.props;
+    const {handleTabChange, selectedTab, getBalanceOf, balances, transfer} = this.props;
 
     return (
       <AppBar position='static'>
-        <Tabs value={selectedTab} onChange={this.handleChange} centered>
+        <Tabs value={selectedTab} onChange={handleTabChange} centered>
           <Tab label='Balances' />
           <Tab label='Whitelist' />
           <Tab label='Transfer' />
         </Tabs>
-        {selectedTab === 0 && <BalanceTab token={token} getBalanceOf={getBalanceOf} balances={balances} />}
+        {selectedTab === 0 && <BalanceTab getBalanceOf={getBalanceOf} balances={balances} />}
         {selectedTab === 1 && <WhiteListTab />}
         {selectedTab === 2 && <TransactionTab transfer={transfer} />}
       </AppBar>
