@@ -10,7 +10,7 @@ export const getBalanceOf = async account => {
     return await getBalanceOf(account);
   }
   catch(err) {
-    console.log('>>>>>>>>', err);
+    console.log('Error reading the balance of an account', err);
   }
 }
 
@@ -19,23 +19,15 @@ export const getAllBalances = async () => {
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();
-    const balanceCallData = whitelistAddresses.map(addr => ({
-      addr, 
-      call: partial(getBalanceOf, addr)
-    }));
 
-    const balances = whitelistAddresses.reduce(async (acc, addr) => {
+    return await whitelistAddresses.reduce(async (accP, addr) => {
+      const acc = await accP;
       const balance = await getBalanceOf(addr);
-      return {
-        ...acc,
-        [addr]: balance.toNumber()
-      }
-    }, {});
-
-    return balances;
+      return {...acc, [addr]: balance.toNumber()};
+    }, Promise.resolve({}))
   }
   catch(err) {
-    console.log('>>>>>>>>', err);
+    console.log('Error getting all balances', err);
   }
 }
 
@@ -45,6 +37,6 @@ export const addToWhitelist = async (account, isWhitelisted)  => {
     return await manageWhitelist(account, isWhitelisted);
   }
   catch(err) {
-    console.log('>>>>>>>>', err);
+    console.log('Error adding an account to the whitelist', err);
   }
 }

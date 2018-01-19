@@ -25,7 +25,7 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
   }
 
   modifier isWhitelisted(address addr) {
-    assert(whitelist[addr].status);
+    require(whitelist[addr].status);
     _;
   }
 
@@ -36,7 +36,6 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
   function getWhitelistAddresses() public view returns(address[]) {
     return whitelistAddreses;
   }
-
 
   function transfer(address _to, uint256 _value) isWhitelisted(_to) public returns (bool) {
     super.transfer(_to, _value);
