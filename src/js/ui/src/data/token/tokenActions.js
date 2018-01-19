@@ -1,55 +1,45 @@
 import {createAction} from 'redux-actions'
 import promisify from 'es6-promisify'
 import {Map} from 'immutable'
-import AsyncData from '../core/AsyncData'
 import {partial} from '../../services/fn'
 import SLADCoinContract from '../../services/eth/contracts/SLADCoin'
 
-export const GET_TOKEN_BALANCE = 'TOKEN::GET_TOKEN_BALANCE'
-export const ADD_TO_WHITELIST = 'TOKEN::ADD_TO_WHITELIST'
-
-const createGetBalanceAction = payload => createAction(GET_TOKEN_BALANCE)(payload);
-const createAddToWhitelist = payload => createAction(ADD_TO_WHITELIST)(payload);
-
-export const getBalanceOf = account => async dispatch => {
+export const getBalanceOf = async account => {
   try {
-    dispatch(
-      createGetBalanceAction(
-        {account, balance: AsyncData.Loading()}
-      )
-    );
-    
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
-    const balance = await getBalanceOf(account);
-
-    return dispatch(
-      createGetBalanceAction(
-        {account, balance: AsyncData.Success(balance)}
-      )
-    );
+    return await getBalanceOf(account);
   }
   catch(err) {
-    // raise an error action
     console.log('>>>>>>>>', err);
   }
 }
 
-export const addToWhitelist = (account, isWhitelisted) => async dispatch => {
+export const getAllBalances = async () => {
   try {
-    dispatch(
-      createAddToWhitelist(
-        {account, isWhitelisted: AsyncData.Loading()}
-      )
-    );
+    const getBalanceOf = promisify(SLADCoinContract.balanceOf);
+    const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
+    const whitelistAddresses = await getWhitelistAddresses();
+    const balanceCallData = whitelistAddresses.map(addr => ({
+      addr, 
+      call: partial(getBalanceOf, addr)
+    }));
 
+    const balances = await whitelistAddresses.reduce(async (acc, addr) => {
+      const balance = await getBalanceOf(addr);
+      return [...acc, {addr, balance: balance.toNumber()}]
+    }, []);
+
+    return balances;
+  }
+  catch(err) {
+    console.log('>>>>>>>>', err);
+  }
+}
+
+export const addToWhitelist = async (account, isWhitelisted)  => {
+  try {
     const manageWhitelist = promisify(SLADCoinContract.manageWhitelist);
-    const result = await manageWhitelist(account, isWhitelisted);
-
-    return dispatch(
-      createAddToWhitelist(
-        {account, isWhitelisted: AsyncData.Success(result)}
-      )
-    );
+    return await manageWhitelist(account, isWhitelisted);
   }
   catch(err) {
     console.log('>>>>>>>>', err);

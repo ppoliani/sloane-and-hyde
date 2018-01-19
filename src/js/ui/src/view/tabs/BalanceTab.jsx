@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Maybe from 'folktale/maybe'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
@@ -8,23 +9,24 @@ import TabContent from './TabContent'
 
 class BalanceTab extends Component {
   state = {
-    account: ''
+    account: '',
+    balance: AsyncData.Empty()
   };
 
   onAccountChange = event => {
     this.setState({account: event.target.value});
   }
 
-  getBalanceOf = () => {
-    this.props.getBalanceOf(this.state.account);
+  getBalanceOf = async () => {
+    this.setState({balance: AsyncData.Loading()});
+    const balance = await this.props.getBalanceOf(this.state.account);
+    this.setState({balance: AsyncData.Success(balance)});
   }
 
   renderBalance() {
-    const {token} = this.props;
-
     return (
       <div>
-        {token.getIn(['balances', this.state.account], AsyncData.Empty()).matchWith({
+        {this.state.balance.matchWith({
           Empty: () => null,
           Loading: () => <CircularProgress thickness={7} />,
           Success: ({data}) => (

@@ -3,6 +3,16 @@ import HomeConnection from '../../bridge/HomeConnection'
 import TabContainer from '../tabs'
 
 class Home extends Component {
+  async componentDidMount() {
+    const {getAllBalances} = this.props;
+
+    const balances = await getAllBalances();
+    console.log('>>>>>>>>', balances) 
+    // load data
+    // props.getBalanceOf()
+    // tokenActions.getAllBalances()
+  }
+
   render() {
     const {getBalanceOf, token} = this.props;
 
