@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 import Maybe from 'folktale/maybe'
-import {prop} from '../fn'
+import {prop} from '../helpers/fn'
 
 let _web3 = Maybe.Nothing();
 
