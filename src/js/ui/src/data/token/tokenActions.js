@@ -14,6 +14,16 @@ export const getBalanceOf = async account => {
   }
 }
 
+export const transfer = async (to, amount) => {
+  try {
+    const transfer = promisify(SLADCoinContract.balanceOf);
+    return await transfer(to, amount);
+  }
+  catch (err) {
+    console.log('Error while transfering balance', err);
+  }
+}
+
 export const getAllBalances = async () => {
   try {
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);

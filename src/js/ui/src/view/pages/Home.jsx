@@ -15,7 +15,7 @@ class Home extends Component {
   }
 
   render() {
-    const {getBalanceOf} = this.props;
+    const {getBalanceOf, transfer} = this.props;
     const {balances} = this.state;
 
     return (
@@ -23,6 +23,7 @@ class Home extends Component {
         <TabContainer 
           balances={balances}
           getBalanceOf={getBalanceOf}
+          transfer={transfer}
         />
       </div>
     );

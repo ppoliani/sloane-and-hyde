@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {getAllBalances, getBalanceOf, addToWhitelist} from '../data/token/tokenActions'
+import {getAllBalances, getBalanceOf, addToWhitelist, transfer} from '../data/token/tokenActions'
 
 export default Home => {
   const mapStateToProps = state => ({});
@@ -7,7 +7,8 @@ export default Home => {
   const mapDispatchToProps = dispatch => ({
     getAllBalances,
     getBalanceOf,
-    addToWhitelist
+    addToWhitelist,
+    transfer
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(Home);
