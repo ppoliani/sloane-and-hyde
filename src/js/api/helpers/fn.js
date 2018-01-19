@@ -1,7 +1,9 @@
-const entries  = function *(obj) {
-  for (let key of Object.keys(obj)) {
-    yield [key, obj[key]];
-  }
+// composition hack
+Function.prototype['∘'] = function(f){
+  return x => this(f(x))
 }
 
-module.exports = entries;
+const partial = (fn, ...args) => (...restArgs) => fn.apply(this, args.concat(restArgs));
+const prop = key => obj => obj[key];
+
+module.exports = {partial, prop}

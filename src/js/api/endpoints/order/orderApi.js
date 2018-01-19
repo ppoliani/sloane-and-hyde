@@ -1,5 +1,10 @@
-const createOrder = async () => {
+const createOrder = async (ctx) => {
   ctx.body = 'Not Implemented!';
 }
 
-module.exports = {createOrder};
+const getOrders = async (ctx) => {
+  ctx.body = 'Not Implemented!';
+}
+
+
+module.exports = {createOrder, getOrders};

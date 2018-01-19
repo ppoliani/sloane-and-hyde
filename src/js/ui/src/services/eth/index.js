@@ -8,7 +8,7 @@ const getWeb3 = () => _web3.matchWith({
   Just: prop('value'),
   Nothing: () => {
     const provider = web3 !== undefined 
-      ?  web3.currentProvider
+      ? web3.currentProvider
       : new Web3.providers.HttpProvider(process.env.WEB3_HTTP_PROVIDER);
       
     const _web3Inst = new Web3(provider);

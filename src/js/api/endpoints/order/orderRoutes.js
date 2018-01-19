@@ -1,16 +1,16 @@
 const {purchaseTokens, getTokenBalance} = require('./orderApi')
 const {partial} = require('../../helpers/fn')
-const {createOrder} = require('./orderApi')
+const {createOrder, getOrders} = require('./orderApi')
 
 const routes = {
-  '/orders/buy': {
+  '/orders': {
     method: 'post',
     fn: partial(createOrder)
   },
-
-  '/tokens/sell': {
-    method: 'post',
-    fn: partial(createOrder)
+  
+  '/orders': {
+    method: 'get',
+    fn: partial(getOrders)
   }
 };
 
