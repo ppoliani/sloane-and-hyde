@@ -20,7 +20,7 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
 
   function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() {
     totalSupply = _supply; // * (10 ** uint256(decimals));
-    whitelist[msg.sender] = WhitelistData(true, 0);
+    whitelist[msg.sender] = WhitelistData(true, whitelistAddreses.push(msg.sender) - 1);
     balances[msg.sender] = totalSupply;
   }
 
