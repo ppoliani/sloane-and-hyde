@@ -16,6 +16,7 @@ class TransactionTab extends Component {
   transfer = async () => {
     const {toAccount, amount} = this.state
     const balance = await this.props.transfer(toAccount, amount);
+    console.log('transfering!')
   }
 
   render() {
@@ -24,17 +25,17 @@ class TransactionTab extends Component {
         Transaction
         <br />
         <TextField
-          id='amount'
-          margin='normal'
-          label='Amount'
-          value={this.state.amount}
-          onChange={this.onAccountChange}
-        />
-        <TextField
           id='toAccount'
           margin='normal'
           label='To Account'
           value={this.state.toAccount}
+          onChange={this.onAccountChange}
+        />
+        <TextField
+          id='amount'
+          margin='normal'
+          label='Amount'
+          value={this.state.amount}
           onChange={this.onAccountChange}
         />
         <br />
