@@ -30,7 +30,6 @@ export const transfer = async(to, amount) => {
 
 export const getAllBalances = async() => {
   try {
-    setTimeout(login, 2000);
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();
@@ -48,12 +47,9 @@ export const getAllBalances = async() => {
 }
 
 (function addEventListener() {
-  const WhitelistUpdatedEvent = SLADCoinContract.WhitelistUpdated()
-  console.log(WhitelistUpdatedEvent)
+  const WhitelistUpdatedEvent = SLADCoinContract.WhitelistUpdated();
   
-  WhitelistUpdatedEvent.watch(function (error, result) {
-    console.log('event listener called callback')
-
+  WhitelistUpdatedEvent.watch((error, result) => {
     if (!error) {
       console.log('Whitelist updated: ', result)
     } else {
@@ -61,7 +57,6 @@ export const getAllBalances = async() => {
     }
   });
 
-  console.log('event listener added')
 })()
 
 export const addToWhitelist = async(account, isWhitelisted) => {
