@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import HomeConnection from '../../bridge/HomeConnection'
 import TabContainer from '../tabs'
 
@@ -9,32 +9,33 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.loadData();  
+    this.loadData();
   }
 
   async loadData() {
-    const {getAllBalances} = this.props;
+    const { getAllBalances } = this.props;
     const balances = await getAllBalances();
 
-    this.setState({balances})
+    this.setState({ balances })
   }
 
   handleTabChange = (event, selectedTab) => {
-    this.setState({selectedTab});
+    this.setState({ selectedTab });
   }
 
   render() {
-    const {getBalanceOf, transfer} = this.props;
-    const {balances, selectedTab} = this.state;
+    const { getBalanceOf, transfer, addToWhitelist } = this.props;
+    const { balances, selectedTab } = this.state;
 
     return (
       <div className='page'>
-        <TabContainer 
+        <TabContainer
           handleTabChange={this.handleTabChange}
           selectedTab={selectedTab}
           balances={balances}
           getBalanceOf={getBalanceOf}
           transfer={transfer}
+          addToWhitelist={addToWhitelist}
         />
       </div>
     );
