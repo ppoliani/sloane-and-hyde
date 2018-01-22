@@ -1,4 +1,4 @@
-const {partial} = require('../../helpers/fn')
+const {partial} = require('../helpers/fn')
 const {createOrder, getOrders} = require('./orderApi')
 
 const routes = {
@@ -9,7 +9,8 @@ const routes = {
   
   '/orders': {
     method: 'get',
-    fn: partial(getOrders)
+    fn: partial(getOrders),
+    auth: true
   }
 };
 

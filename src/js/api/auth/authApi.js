@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
+const {generateToken} = require('./jwt')
 const ethUtil = require('ethereumjs-util')
-const {HttpError} = require('../../core/api')
+const {HttpError} = require('../core/api')
 
 const checkSig = (sig, account) => {
   const message = ethUtil.toBuffer(process.env.DATA_TO_SIGN);
@@ -14,7 +14,7 @@ const checkSig = (sig, account) => {
   const addr = ethUtil.bufferToHex(sender);
 
   return addr === account
-    ? jwt.sign({account}, process.env.JWT_SECRET, {expiresIn: '1d'})
+    ? generateToken({account})
     : null;
 }
 

@@ -1,5 +1,5 @@
 const {login} = require('./authApi')
-const {partial} = require('../../helpers/fn')
+const {partial} = require('../helpers/fn')
 
 const routes = {
   '/auth/login': {
