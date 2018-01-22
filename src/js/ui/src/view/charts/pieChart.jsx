@@ -30,8 +30,8 @@ var data = {
 
 export default class PieChartFinal extends Component {
     prepareData = () => {
-        if (this.props.balances.length === 0) {
-            return
+        if(this.props.balances.length === 0){
+            return {};
         }
 
         const addresses = Object.keys(this.props.balances)

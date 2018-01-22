@@ -1,6 +1,7 @@
 const entries = require('../helpers/entries');
 
 const routes = [
+  require('../endpoints/auth/authRoutes'),
   require('../endpoints/order/orderRoutes')
 ];
 

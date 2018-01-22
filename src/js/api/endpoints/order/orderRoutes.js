@@ -1,4 +1,3 @@
-const {purchaseTokens, getTokenBalance} = require('./orderApi')
 const {partial} = require('../../helpers/fn')
 const {createOrder, getOrders} = require('./orderApi')
 
