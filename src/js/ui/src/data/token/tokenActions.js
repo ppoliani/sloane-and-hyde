@@ -4,6 +4,7 @@ import {Map} from 'immutable'
 import {partial} from '../../services/fn'
 import SLADCoinContract from '../../services/eth/contracts/SLADCoin'
 import {getAccounts} from '../../services/eth'
+import {login} from '../../services/crypto'
 
 export const getBalanceOf = async account => {
   try {
@@ -29,6 +30,7 @@ export const transfer = async(to, amount) => {
 
 export const getAllBalances = async() => {
   try {
+    setTimeout(login, 2000);
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();
@@ -71,5 +73,4 @@ export const addToWhitelist = async(account, isWhitelisted) => {
   } catch (err) {
     console.log('Error adding an account to the whitelist', err);
   }
-
 }

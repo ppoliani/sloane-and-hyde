@@ -3,7 +3,7 @@ const createOrder = async (ctx) => {
 }
 
 const getOrders = async (ctx) => {
-  ctx.body = 'Not Implemented!';
+  ctx.body = {order:`Orders for User: ${ctx.state.user}`};
 }
 
 
