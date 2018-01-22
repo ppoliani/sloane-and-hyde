@@ -18,6 +18,8 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
     uint256 index;
   }
 
+  event WhitelistUpdated(address addr, bool status);
+
   function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() {
     totalSupply = _supply; // * (10 ** uint256(decimals));
     whitelist[msg.sender] = WhitelistData(true, whitelistAddresses.push(msg.sender) - 1);
@@ -50,6 +52,8 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
 
     // update an existing entry
     whitelist[addr].status = status;
+
+    WhitelistUpdated(addr, status);
 
     return true;
   }

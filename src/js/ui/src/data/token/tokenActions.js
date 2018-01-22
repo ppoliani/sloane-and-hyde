@@ -1,17 +1,9 @@
-import {
-  createAction
-} from 'redux-actions'
+import {createAction} from 'redux-actions'
 import promisify from 'es6-promisify'
-import {
-  Map
-} from 'immutable'
-import {
-  partial
-} from '../../services/fn'
+import {Map} from 'immutable'
+import {partial} from '../../services/fn'
 import SLADCoinContract from '../../services/eth/contracts/SLADCoin'
-import {
-  getAccounts
-} from '../../services/eth'
+import {getAccounts} from '../../services/eth'
 
 export const getBalanceOf = async account => {
   try {
@@ -53,14 +45,31 @@ export const getAllBalances = async() => {
   }
 }
 
+(function addEventListener() {
+  const WhitelistUpdatedEvent = SLADCoinContract.WhitelistUpdated()
+  console.log(WhitelistUpdatedEvent)
+  
+  WhitelistUpdatedEvent.watch(function (error, result) {
+    console.log('event listener called callback')
+
+    if (!error) {
+      console.log('Whitelist updated: ', result)
+    } else {
+      console.log(error);
+    }
+  });
+
+  console.log('event listener added')
+})()
+
 export const addToWhitelist = async(account, isWhitelisted) => {
-  console.log('in whitelist')
   try {
     const accounts = getAccounts();
     const manageWhitelist = promisify(SLADCoinContract.manageWhitelist);
-    console.log('in whitelist promise')
+
     return await manageWhitelist(account, isWhitelisted, {from: accounts[0]});
   } catch (err) {
     console.log('Error adding an account to the whitelist', err);
   }
+
 }
