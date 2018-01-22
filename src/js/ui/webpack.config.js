@@ -12,7 +12,8 @@ module.exports = () => {
     new webpack.DefinePlugin({
       WEB3_HTTP_PROVIDER: JSON.stringify(process.env.WEB3_HTTP_PROVIDER),
       DATA_TO_SIGN: JSON.stringify(process.env.DATA_TO_SIGN),
-      API_URL: JSON.stringify(process.env.API_URL)
+      API_URL: JSON.stringify(process.env.API_URL),
+      ACCESS_TOKEN_KEY: JSON.stringify(process.env.ACCESS_TOKEN_KEY)
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

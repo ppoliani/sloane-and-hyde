@@ -1,5 +1,6 @@
 import getWeb3, {getAccounts} from './eth'
 import fetch from './api'
+import {setItem} from './storage'
 
 const toHex = s => 
   s.split('')
@@ -17,6 +18,13 @@ export const login = () => {
 }
 
 const authenticate = async (sig, account) => {
-  const token = await fetch(`${process.env.API_URL}/auth/login`, 'POST', {sig, account});
-  console.log('>>>>>>>', token);
+  try {
+    const {token} = await fetch(`${process.env.API_URL}/auth/login`, 'POST', {sig, account});
+    setItem(process.env.ACCESS_TOKEN_KEY, token);
+    const result = await fetch(`${process.env.API_URL}/orders`);
+    console.log('>>>>>', result)
+  }
+  catch(err) {
+    console.log('Error authenticating the user', err);
+  }
 }

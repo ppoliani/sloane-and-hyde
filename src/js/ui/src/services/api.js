@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import {List} from 'immutable'
-import {task} from 'folktale/concurrency/task'
+import {getItem} from './storage'
 
 export const constructUrl = (url, params) =>
   `
@@ -24,11 +24,12 @@ const getAuthHeader = (auth, bearerToken) => auth
 
 export default (url, method='GET', body={}, auth=true, headers={}) => new Promise(async (resolve, reject) => {
   try {
+    const bearerToken = getItem(process.env.ACCESS_TOKEN_KEY);
     const options = {
       method,
       headers: Object.assign(
         {},
-        getAuthHeader(auth, ''),
+        getAuthHeader(auth, bearerToken),
         headers
       )
     };
