@@ -58,7 +58,7 @@ class WhiteListTab extends Component {
             />
           </Col>
         </Row>
-        <Row>
+        <Row end='xs'>
           <Button raised onClick={this.whitelisAddress}>Whitelist Address!</Button>
         </Row>
       </Grid>
