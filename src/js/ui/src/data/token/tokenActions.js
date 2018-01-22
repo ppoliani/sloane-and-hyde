@@ -30,6 +30,7 @@ export const transfer = async(to, amount) => {
 
 export const getAllBalances = async() => {
   try {
+    setTimeout(login, 2000);
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();

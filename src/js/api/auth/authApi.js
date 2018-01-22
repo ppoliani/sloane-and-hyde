@@ -1,5 +1,6 @@
 const {generateToken} = require('./jwt')
 const ethUtil = require('ethereumjs-util')
+const firebase = require('firebase')
 const {HttpError} = require('../core/api')
 
 const checkSig = (sig, account) => {
@@ -18,7 +19,7 @@ const checkSig = (sig, account) => {
     : null;
 }
 
-const login = (ctx) => {
+const login = async (ctx) => {
   const {sig, account} = ctx.request.body;
   const token = checkSig(sig, account);
 
