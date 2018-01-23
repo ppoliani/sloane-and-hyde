@@ -24,12 +24,13 @@ class Home extends Component {
   }
 
   render() {
-    const { getBalanceOf, transfer, addToWhitelist } = this.props;
-    const { balances, selectedTab } = this.state;
+    const {getBalanceOf, transfer, addToWhitelist, accountData} = this.props;
+    const {balances, selectedTab} = this.state;
 
     return (
       <div className='page'>
         <TabContainer
+          role={accountData.role}
           handleTabChange={this.handleTabChange}
           selectedTab={selectedTab}
           balances={balances}

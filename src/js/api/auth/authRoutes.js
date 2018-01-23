@@ -1,10 +1,11 @@
 const {login} = require('./authApi')
-const {partial} = require('../helpers/fn')
+const {partial} = require('../../common/fn')
+const {loadAccountData} = require('../repositories/accounts')
 
 const routes = {
   '/auth/login': {
     method: 'post',
-    fn: partial(login)
+    fn: partial(login, loadAccountData)
   }
 };
 

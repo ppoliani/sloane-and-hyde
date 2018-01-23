@@ -1,10 +1,11 @@
 import {createAction} from 'redux-actions'
 import promisify from 'es6-promisify'
 import {Map} from 'immutable'
-import {partial} from '../../services/fn'
-import SLADCoinContract from '../../services/eth/contracts/SLADCoin'
-import {getAccounts} from '../../services/eth'
-import {login} from '../../services/crypto'
+import {partial} from '../../../../common/fn'
+import {contract as SLADCoinContract} from '../../../../common/eth/contracts/SLADCoin'
+import {getAccounts} from '../../../../common/eth'
+import {login} from '../../services/crypto' 
+import fetch from '../../services/api'
 
 export const getBalanceOf = async account => {
   try {
@@ -15,7 +16,7 @@ export const getBalanceOf = async account => {
   }
 }
 
-export const transfer = async(to, amount) => {
+export const transfer = async (to, amount) => {
   try {
     const accounts = getAccounts();
     const transfer = promisify(SLADCoinContract.transfer);
@@ -28,49 +29,28 @@ export const transfer = async(to, amount) => {
   }
 }
 
-export const getAllBalances = async() => {
+export const getAllBalances = async () => { 
   try {
-    setTimeout(login, 2000);
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();
 
-    return await whitelistAddresses.reduce(async(accP, addr) => {
+    return await whitelistAddresses.reduce(async (accP, addr) => {
       const acc = await accP;
       const balance = await getBalanceOf(addr);
-      return { ...acc,
-        [addr]: balance.toNumber()
-      };
+
+      return { ...acc, [addr]: balance.toNumber()};
     }, Promise.resolve({}))
   } catch (err) {
     console.log('Error getting all balances', err);
   }
 }
 
-(function addEventListener() {
-  const WhitelistUpdatedEvent = SLADCoinContract.WhitelistUpdated()
-  console.log(WhitelistUpdatedEvent)
-  
-  WhitelistUpdatedEvent.watch(function (error, result) {
-    console.log('event listener called callback')
-
-    if (!error) {
-      console.log('Whitelist updated: ', result)
-    } else {
-      console.log(error);
-    }
-  });
-
-  console.log('event listener added')
-})()
-
-export const addToWhitelist = async(account, isWhitelisted) => {
+export const addToWhitelist = async(account, isWhitelisted, name, iban, email) => {
   try {
-    const accounts = getAccounts();
-    const manageWhitelist = promisify(SLADCoinContract.manageWhitelist);
-
-    return await manageWhitelist(account, isWhitelisted, {from: accounts[0]});
-  } catch (err) {
+    await fetch(`${process.env.API_URL}/accounts/whitelist`, 'POST', {account, isWhitelisted, name, iban, email});
+  } 
+  catch (err) {
     console.log('Error adding an account to the whitelist', err);
   }
 }

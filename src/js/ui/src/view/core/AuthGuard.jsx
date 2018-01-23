@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
+import {CircularProgress} from 'material-ui/Progress'
+import {getItem} from '../../services/storage'
+import {login} from '../../services/crypto'
 
 class AuthGuard extends Component {
   constructor(props, state) {
@@ -7,26 +10,51 @@ class AuthGuard extends Component {
   }
 
   state = {
-    isAuthenticated: null
+    isAuthenticated: null,
+    error: null
   }
 
   componentDidMount() {
-    // TODO: This is the place where you can apply some logic to determine
-    // if user is authenticated i.e. read JWT token from the localstorage
-    this.setState({isAuthenticated: true});
+    if(this.verifyToken()) {
+      this.markAuthenticated(true);
+    }
+    else {
+      this.login();
+    } 
+  }
+
+  markAuthenticated(status) {
+    this.setState({isAuthenticated: status});
+  }
+
+  verifyToken() {
+    const token = getItem(process.env.ACCESS_TOKEN_KEY);
+    return Boolean(token);
+  }
+
+  getAccountData() {
+    return JSON.parse(getItem(process.env.ACCOUNT_DATA_KEY));
+  }
+
+  async login() {
+    try {
+      await login();
+      this.markAuthenticated(true);
+    }
+    catch(error) {
+      this.setState({error})
+    }
   }
 
   render() {
     const Component = this.props.component;
 
     if(this.state.isAuthenticated === null) {
-      // TODO: this is the place were we can add a spinner
-      // or something more sophisticated
-      return null;
+      return <CircularProgress thickness={7} />
     }
 
     return this.state.isAuthenticated
-      ? <Component />
+      ? <Component accountData={this.getAccountData()}/>
       : <Redirect to={{
           pathname: '/login',
           state: {

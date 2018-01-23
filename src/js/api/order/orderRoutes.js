@@ -1,4 +1,4 @@
-const {partial} = require('../helpers/fn')
+const {partial} = require('../../common/fn')
 const {createOrder, getOrders} = require('./orderApi')
 
 const routes = {

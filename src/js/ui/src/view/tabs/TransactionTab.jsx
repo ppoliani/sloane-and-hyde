@@ -23,7 +23,6 @@ class TransactionTab extends Component {
   render() {
     return (
       <TabContent>
-        Transaction
         <Grid>
           <Row middle='xs'>
             <Col xs={6}>

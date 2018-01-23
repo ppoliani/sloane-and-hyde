@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "es6-promisify": "^5.0.0",
+    "folktale": "^2.0.1",
+    "web3": "^0.20.4"
+  }
+}
