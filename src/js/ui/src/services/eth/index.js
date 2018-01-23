@@ -1,5 +1,6 @@
 import Web3 from 'web3'
 import Maybe from 'folktale/maybe'
+import promisify from 'es6-promisify'
 import {prop} from '../fn'
 
 let _web3 = Maybe.Nothing();
@@ -17,5 +18,11 @@ export const getWeb3 = () => _web3.matchWith({
   }
 });
 
-export const getAccounts = () => getWeb3().eth.accounts;
+export const getAccounts = promisify(getWeb3().eth.getAccounts);
+
+export const getDefaultAccount = async () => {
+  const accounts = await getAccounts();
+  return accounts[0];
+}
+
 export default getWeb3;
