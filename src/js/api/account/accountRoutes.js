@@ -1,10 +1,10 @@
 const {partial} = require('../../common/fn')
-const {manageWhitelist} = require('./accountApi')
+const {updateWhitelist} = require('./accountApi')
 
 const routes = {
   '/accounts/whitelist': {
     method: 'post',
-    fn: partial(manageWhitelist)
+    fn: partial(updateWhitelist)
   }
 }; 
 

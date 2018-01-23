@@ -1,7 +1,16 @@
-const getWeb3 = require('../../common/eth')
+const {manageWhitelist} = require('../repositories/accounts')
 
-const manageWhitelist = (ctx) => {
-  const web3 = getWeb3();
+const updateWhitelist = async (ctx) => {
+  const {account, isWhitelisted} = ctx.request.body;
+
+  try {
+    await manageWhitelist(account, isWhitelisted);
+    ctx.status = 204;
+  }
+  catch(err) {
+    ctx.status = 500;
+    ctx.body = HttpError(500, 'Access Denied');
+  }
 }
  
-module.exports = {manageWhitelist};
+module.exports = {updateWhitelist}
