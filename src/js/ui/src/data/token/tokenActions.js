@@ -34,12 +34,11 @@ export const getAllBalances = async() => {
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();
 
-    return await whitelistAddresses.reduce(async(accP, addr) => {
+    return await whitelistAddresses.reduce(async (accP, addr) => {
       const acc = await accP;
       const balance = await getBalanceOf(addr);
-      return { ...acc,
-        [addr]: balance.toNumber()
-      };
+
+      return { ...acc, [addr]: balance.toNumber()};
     }, Promise.resolve({}))
   } catch (err) {
     console.log('Error getting all balances', err);

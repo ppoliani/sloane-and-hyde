@@ -3,6 +3,7 @@ const entries = require('../helpers/entries')
 
 const routes = [
   require('../auth/authRoutes'),
+  require('../account/accountRoutes'),
   require('../order/orderRoutes')
 ];
 
