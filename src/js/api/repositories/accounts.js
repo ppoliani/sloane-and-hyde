@@ -16,6 +16,13 @@ const loadAccountData = async account => {
   }
 }
 
+const createAccount = (name, iban, email) => ({
+  name,
+  iban,
+  email,
+  role: 'user'
+});
+
 const manageWhitelist = async (account, isWhitelisted, name, iban, email='') => {
   const web3 = getWeb3();
   const from = await getDefaultAccount();
@@ -23,15 +30,9 @@ const manageWhitelist = async (account, isWhitelisted, name, iban, email='') => 
   
   try {
     const result = await manageWhitelist(account, isWhitelisted, {from, gas: 900000});
-    // store account data
     await firebase.database()
       .ref(`/accounts/${account}`)
-      .set({
-        name,
-        iban,
-        email,
-        role: 'user'
-      });
+      .set(createAccount(name, iban, email));
   }
   catch(err) {
     throw err;

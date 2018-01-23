@@ -27,7 +27,6 @@ const authenticate = async (sig, account) => {
     const {token, accountData} = await fetch(`${process.env.API_URL}/auth/login`, 'POST', {sig, account});
     setItem(process.env.ACCESS_TOKEN_KEY, token);
     setItem(process.env.ACCOUNT_DATA_KEY, accountData);
-    return await fetch(`${process.env.API_URL}/orders`);
   }
   catch(err) {
     console.log('Error authenticating the user', err);
