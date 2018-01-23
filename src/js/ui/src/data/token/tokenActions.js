@@ -46,19 +46,6 @@ export const getAllBalances = async() => {
   }
 }
 
-(function addEventListener() {
-  const WhitelistUpdatedEvent = SLADCoinContract.WhitelistUpdated();
-  
-  WhitelistUpdatedEvent.watch((error, result) => {
-    if (!error) {
-      console.log('Whitelist updated: ', result)
-    } else {
-      console.log(error);
-    }
-  });
-
-})()
-
 export const addToWhitelist = async(account, isWhitelisted) => {
   try {
     const accounts = getAccounts();
