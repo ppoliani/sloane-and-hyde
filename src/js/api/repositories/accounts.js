@@ -16,15 +16,22 @@ const loadAccountData = async account => {
   }
 }
 
-const manageWhitelist = async (account, isWhitelisted) => {
+const manageWhitelist = async (account, isWhitelisted, name, iban, email='') => {
   const web3 = getWeb3();
   const from = await getDefaultAccount();
-  const manageWhitelist = promisify(SLADCoinContract.manageWhitelist.sendTransaction);
+  const manageWhitelist = promisify(SLADCoinContract.manageWhitelist);
   
   try {
-    const txHash = await manageWhitelist(account, isWhitelisted, {from, gas: 900000});
-    const receipt = await getTransactionReceiptMined(txHash);
-    console.log('>>>>>>>', receipt);
+    const result = await manageWhitelist(account, isWhitelisted, {from, gas: 900000});
+    // store account data
+    await firebase.database()
+      .ref(`/accounts/${account}`)
+      .set({
+        name,
+        iban,
+        email,
+        role: 'user'
+      });
   }
   catch(err) {
     throw err;

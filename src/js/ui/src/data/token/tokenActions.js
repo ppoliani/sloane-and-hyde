@@ -29,7 +29,7 @@ export const transfer = async (to, amount) => {
   }
 }
 
-export const getAllBalances = async () => {
+export const getAllBalances = async () => { 
   try {
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
@@ -46,9 +46,9 @@ export const getAllBalances = async () => {
   }
 }
 
-export const addToWhitelist = async(account, isWhitelisted) => {
+export const addToWhitelist = async(account, isWhitelisted, name, iban, email) => {
   try {
-    await fetch(`${process.env.API_URL}/accounts/whitelist`, 'POST', {account, isWhitelisted});
+    await fetch(`${process.env.API_URL}/accounts/whitelist`, 'POST', {account, isWhitelisted, name, iban, email});
   } 
   catch (err) {
     console.log('Error adding an account to the whitelist', err);

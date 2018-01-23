@@ -10,7 +10,7 @@ import TabContent from './TabContent'
 
 class WhiteListTab extends Component {
   state = {
-    toWhitelist: '',
+    account: '',
     name: '',
     IBAN: ''
   };
@@ -20,10 +20,8 @@ class WhiteListTab extends Component {
   }
 
   whitelisAddress = async () => {
-    const { toWhitelist, amount } = this.state
-    console.log(`Whitelisting address ${toWhitelist}`);
-    const balance = await this.props.addToWhitelist(toWhitelist, true);
-    console.log('adding to whitelist')
+    const {account, amount, name, IBAN} = this.state
+    const balance = await this.props.addToWhitelist(account, true, name, IBAN);
   }
 
   renderForm() {
@@ -32,10 +30,10 @@ class WhiteListTab extends Component {
         <Row>
           <Col xs={4}>
             <TextField
-              id='toWhitelist'
+              id='account'
               margin='normal'
               label='Account to whitelist'
-              value={this.state.toWhitelist}
+              value={this.state.account}
               onChange={this.onAccountChange}
             />
           </Col>

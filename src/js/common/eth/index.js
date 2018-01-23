@@ -25,7 +25,7 @@ const getDefaultAccount = async () => {
   return accounts[0];
 }
 
-const waitForTxConfirmations = (txHash, confirmations=2) => {
+const waitForTxConfirmations = (txHash, confirmations=12) => {
   const web3 = getWeb3();
   const filter = web3.eth.filter('latest');
 

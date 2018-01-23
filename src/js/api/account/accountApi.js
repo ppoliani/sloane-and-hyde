@@ -1,10 +1,10 @@
 const {manageWhitelist} = require('../repositories/accounts')
 
 const updateWhitelist = async (ctx) => {
-  const {account, isWhitelisted} = ctx.request.body;
+  const {account, isWhitelisted, name, iban, email} = ctx.request.body;
 
   try {
-    await manageWhitelist(account, isWhitelisted);
+    await manageWhitelist(account, isWhitelisted, name, iban, email);
     ctx.status = 204;
   }
   catch(err) {
