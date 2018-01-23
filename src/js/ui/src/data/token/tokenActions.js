@@ -5,6 +5,7 @@ import {partial} from '../../../../common/fn'
 import {contract as SLADCoinContract} from '../../../../common/eth/contracts/SLADCoin'
 import {getAccounts} from '../../../../common/eth'
 import {login} from '../../services/crypto' 
+import fetch from '../../services/api'
 
 export const getBalanceOf = async account => {
   try {
@@ -15,7 +16,7 @@ export const getBalanceOf = async account => {
   }
 }
 
-export const transfer = async(to, amount) => {
+export const transfer = async (to, amount) => {
   try {
     const accounts = getAccounts();
     const transfer = promisify(SLADCoinContract.transfer);
@@ -28,7 +29,7 @@ export const transfer = async(to, amount) => {
   }
 }
 
-export const getAllBalances = async() => {
+export const getAllBalances = async () => {
   try {
     const getBalanceOf = promisify(SLADCoinContract.balanceOf);
     const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
@@ -47,11 +48,9 @@ export const getAllBalances = async() => {
 
 export const addToWhitelist = async(account, isWhitelisted) => {
   try {
-    const accounts = getAccounts();
-    const manageWhitelist = promisify(SLADCoinContract.manageWhitelist);
-
-    return await manageWhitelist(account, isWhitelisted, {from: accounts[0]});
-  } catch (err) {
+    await fetch(`${process.env.API_URL}/accounts/whitelist`, 'POST', {account, isWhitelisted});
+  } 
+  catch (err) {
     console.log('Error adding an account to the whitelist', err);
   }
 }

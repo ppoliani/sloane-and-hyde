@@ -9,7 +9,7 @@ const updateWhitelist = async (ctx) => {
   }
   catch(err) {
     ctx.status = 500;
-    ctx.body = HttpError(500, 'Access Denied');
+    ctx.body = HttpError(500, 'Error');
   }
 }
  

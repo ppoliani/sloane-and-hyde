@@ -1,4 +1,4 @@
-import getWeb3, {getDefaultAccount} from '../../../common/eth'
+import {getWeb3, getDefaultAccount} from '../../../common/eth'
 import fetch from './api'
 import promisify from 'es6-promisify'
 import {setItem} from './storage'
