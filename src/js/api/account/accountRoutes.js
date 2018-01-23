@@ -1,4 +1,4 @@
-const {partial} = require('../helpers/fn')
+const {partial} = require('../../common/fn')
 const {manageWhitelist} = require('./accountApi')
 
 const routes = {
@@ -6,6 +6,6 @@ const routes = {
     method: 'post',
     fn: partial(manageWhitelist)
   }
-};
+}; 
 
 module.exports = routes;

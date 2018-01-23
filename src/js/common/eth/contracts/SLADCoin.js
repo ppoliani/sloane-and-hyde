@@ -1,5 +1,5 @@
 const Maybe = require('folktale/maybe')
-const sladCoinContractDefinition = require('../../../../../../solidity/build/contracts/SLADCoin.json')
+const sladCoinContractDefinition = require('../../../../solidity/build/contracts/SLADCoin.json')
 const {getWeb3} = require('../')
 
 const listenToEvents = SLADCoinContract => {

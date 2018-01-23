@@ -1,9 +1,9 @@
 import {createAction} from 'redux-actions'
 import promisify from 'es6-promisify'
 import {Map} from 'immutable'
-import {partial} from '../../services/fn'
-import SLADCoinContract from '../../services/eth/contracts/SLADCoin'
-import {getAccounts} from '../../services/eth'
+import {partial} from '../../../../common/fn'
+import SLADCoinContract from '../../../../common/eth/contracts/SLADCoin'
+import {getAccounts} from '../../../../common/eth'
 import {login} from '../../services/crypto'
 
 export const getBalanceOf = async account => {
