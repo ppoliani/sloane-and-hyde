@@ -34,10 +34,11 @@ export default class PieChartFinal extends Component {
             return {};
         }
 
-        const addresses = Object.keys(this.props.balances)
+        // const addresses = Object.keys(this.props.balances)
+        const addresses = Object.keys(this.props.balances).map(address => address === this.props.defaultAccount ? address + ' (you)' : address)
         const balances = addresses.map(address => this.props.balances[address])
         const colors = addresses.map(() => '#' + (Math.random() * 0xFFFFFF << 0).toString(16))
-
+        
         const finalData = {
             labels: addresses,
             datasets: [{

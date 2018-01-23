@@ -58,7 +58,7 @@ contract('SLADCoin', accounts => {
     balance = await instance.balanceOf.call(account_one);
     const account_one_ending_balance = balance.toNumber();
     balance = await instance.balanceOf.call(account_two);
-    account_two_ending_balance = balance.toNumber();
+    const account_two_ending_balance = balance.toNumber();
 
     assert.equal(account_one_ending_balance, account_one_starting_balance - amount, `Amount wasn't correctly taken from the sender`);
     assert.equal(account_two_ending_balance, account_two_starting_balance + amount, `Amount wasn't correctly sent to the receiver`);

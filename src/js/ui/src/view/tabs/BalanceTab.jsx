@@ -1,28 +1,30 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Maybe from 'folktale/maybe'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
-import {Grid, Col, Row} from 'react-flexbox-grid';
-import {CircularProgress} from 'material-ui/Progress'
+import { Grid, Col, Row } from 'react-flexbox-grid';
+import { CircularProgress } from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
 import PieChart from "../charts/pieChart";
+import { getAccounts } from '../../services/eth/index'
 
 class BalanceTab extends Component {
   state = {
+    defaultAccount: getAccounts()[0],
     account: '',
     balance: AsyncData.Empty()
   };
 
   onAccountChange = event => {
-    this.setState({account: event.target.value});
+    this.setState({ account: event.target.value });
   }
 
   getBalanceOf = async () => {
-    this.setState({balance: AsyncData.Loading()});
+    this.setState({ balance: AsyncData.Loading() });
     const balance = await this.props.getBalanceOf(this.state.account);
-    this.setState({balance: AsyncData.Success(balance)});
+    this.setState({ balance: AsyncData.Success(balance) });
   }
 
   renderBalance() {
@@ -31,12 +33,12 @@ class BalanceTab extends Component {
         {this.state.balance.matchWith({
           Empty: () => null,
           Loading: () => <CircularProgress thickness={7} />,
-          Success: ({data}) => (
+          Success: ({ data }) => (
             <Typography type='headline' component='p'>
               Balance: {data.toString()}
             </Typography>
           ),
-          Failure: ({error}) => (
+          Failure: ({ error }) => (
             <Typography type='headline' component='p'>
               An error occured: {error}
             </Typography>
@@ -51,9 +53,9 @@ class BalanceTab extends Component {
       <Grid>
         <Row>
           <Col>
-            <TextField 
+            <TextField
               id='name'
-              margin='normal' 
+              margin='normal'
               label='Account'
               value={this.state.account}
               onChange={this.onAccountChange}
@@ -74,7 +76,7 @@ class BalanceTab extends Component {
     return (
       <TabContent>
         {this.renderForm()}
-        <PieChart balances={this.props.balances} />
+        <PieChart balances={this.props.balances} defaultAccount={this.state.defaultAccount} />
       </TabContent>
     )
   }
