@@ -1,6 +1,6 @@
 const firebase = require('firebase')
 const {promisify} = require('util')
-const {getWeb3, waitForTxConfirmations} = require('../../common/eth')
+const {getWeb3, getTransactionReceiptMined} = require('../../common/eth')
 const {contract: SLADCoinContract, listenToEvents,} = require('../../common/eth/contracts/SLADCoin')
 const {getDefaultAccount} = require('../../common/eth')
 
@@ -22,10 +22,9 @@ const manageWhitelist = async (account, isWhitelisted) => {
   const manageWhitelist = promisify(SLADCoinContract.manageWhitelist.sendTransaction);
   
   try {
-    const result = await manageWhitelist(account, isWhitelisted, {from, gas: 900000});
-    await waitForTxConfirmations(result);
-    // At this point we know that
-    console.log('>>>>>>>', result)
+    const txHash = await manageWhitelist(account, isWhitelisted, {from, gas: 900000});
+    const receipt = await getTransactionReceiptMined(txHash);
+    console.log('>>>>>>>', receipt);
   }
   catch(err) {
     throw err;

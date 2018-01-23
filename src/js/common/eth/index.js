@@ -45,4 +45,23 @@ const waitForTxConfirmations = (txHash, confirmations=2) => {
   });
 }
 
-module.exports = {getWeb3, getAccounts, getDefaultAccount, waitForTxConfirmations}
+const getTransactionReceiptMined = txHash => 
+  new Promise((resolve, reject) => {
+    const transactionReceiptAsync = async (resolve, reject) => {
+      const web3 = getWeb3();
+      const getTransactionReceipt = promisify(web3.eth.getTransactionReceipt);
+      const receipt = await getTransactionReceipt(txHash);
+      
+      if(receipt === null) {
+        setTimeout(() => transactionReceiptAsync(resolve, reject), 500);
+      }
+      else {
+        resolve(receipt);
+      }
+    }
+
+    transactionReceiptAsync(resolve, reject);
+  });
+
+
+module.exports = {getWeb3, getAccounts, getDefaultAccount, getTransactionReceiptMined}
