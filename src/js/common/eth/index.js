@@ -25,4 +25,24 @@ const getDefaultAccount = async () => {
   return accounts[0];
 }
 
-module.exports = {getWeb3, getAccounts, getDefaultAccount}
+const waitForTxConfirmations = (txHash, confirmations=2) => {
+  const web3 = getWeb3();
+  const filter = web3.eth.filter('latest');
+
+  return new Promise((resolve, reject) => {
+    const subscription = filter.watch((error, result) => {
+      if(!error) {
+        const confirmedBlock = web3.eth.getBlock(web3.eth.blockNumber - confirmations);
+        const found = confirmedBlock.transactions.find(txId === txHash);
+
+        if(found) {
+          subscription.stopWatching();
+          return resolve();
+        } 
+        reject();
+      }
+    });
+  });
+}
+
+module.exports = {getWeb3, getAccounts, getDefaultAccount, waitForTxConfirmations}
