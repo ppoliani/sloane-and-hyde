@@ -32,6 +32,10 @@ class AuthGuard extends Component {
     return Boolean(token);
   }
 
+  getAccountData() {
+    return JSON.parse(getItem(process.env.ACCOUNT_DATA_KEY));
+  }
+
   async login() {
     try {
       await login();
@@ -50,7 +54,7 @@ class AuthGuard extends Component {
     }
 
     return this.state.isAuthenticated
-      ? <Component />
+      ? <Component accountData={this.getAccountData()}/>
       : <Redirect to={{
           pathname: '/login',
           state: {

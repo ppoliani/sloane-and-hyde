@@ -5,9 +5,7 @@ import {setItem} from './storage'
 
 const toHex = s => 
   s.split('')
-    .reduce((hex, char) => {
-      return `${hex}${char.charCodeAt(0).toString(16)}`
-    }, '0x');
+    .reduce((hex, char) => `${hex}${char.charCodeAt(0).toString(16)}`, '0x');
 
 export const login = async () => {
   const data = toHex(process.env.DATA_TO_SIGN);
@@ -26,8 +24,9 @@ export const login = async () => {
 
 const authenticate = async (sig, account) => {
   try {
-    const {token} = await fetch(`${process.env.API_URL}/auth/login`, 'POST', {sig, account});
+    const {token, accountData} = await fetch(`${process.env.API_URL}/auth/login`, 'POST', {sig, account});
     setItem(process.env.ACCESS_TOKEN_KEY, token);
+    setItem(process.env.ACCOUNT_DATA_KEY, accountData);
     return await fetch(`${process.env.API_URL}/orders`);
   }
   catch(err) {

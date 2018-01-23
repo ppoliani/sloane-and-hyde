@@ -5,6 +5,8 @@ import Header from './Header';
 
 export default (NestedComponent, props={}) => class LayoutComponent extends Component {
   render() {
+    const extendedProps = { ...this.props, ...props };
+
     return (
       <div>
         <Header  />
@@ -13,7 +15,7 @@ export default (NestedComponent, props={}) => class LayoutComponent extends Comp
             <Grid fluid>
               <Row middle='xs'>
                 <Col xs>
-                  <NestedComponent {...props}/>
+                  <NestedComponent {...extendedProps} />
                 </Col>
               </Row>
             </Grid>

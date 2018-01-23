@@ -7,17 +7,17 @@ import TransactionTab from './TransactionTab'
 
 class TabContainer extends Component {
   render() {
-    const { handleTabChange, selectedTab, getBalanceOf, balances, transfer, addToWhitelist } = this.props;
+    const {handleTabChange, selectedTab, getBalanceOf, balances, transfer, addToWhitelist, role} = this.props;
 
     return (
       <AppBar position='static'>
         <Tabs value={selectedTab} onChange={handleTabChange} centered>
           <Tab label='Balances' />
-          <Tab label='Whitelist' />
+          {role === 'admin' ? <Tab label='Whitelist' /> : null}
           <Tab label='Transfer' />
         </Tabs>
         {selectedTab === 0 && <BalanceTab getBalanceOf={getBalanceOf} balances={balances} />}
-        {selectedTab === 1 && <WhiteListTab addToWhitelist={addToWhitelist} />}
+        {selectedTab === 1 && role === 'admin' && <WhiteListTab addToWhitelist={addToWhitelist} />}
         {selectedTab === 2 && <TransactionTab transfer={transfer} />}
       </AppBar>
     )
