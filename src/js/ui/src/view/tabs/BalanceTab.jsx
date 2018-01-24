@@ -8,14 +8,19 @@ import { CircularProgress } from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
 import PieChart from "../charts/pieChart";
-import {getAccounts} from '../../../../common/eth/index'
+import {getDefaultAccount} from '../../../../common/eth/index'
 
 class BalanceTab extends Component {
   state = {
-    defaultAccount: getAccounts()[0],
+    defaultAccount: null,
     account: '',
     balance: AsyncData.Empty()
   };
+
+  async componentDidMount() {
+    const defaultAccount = await getDefaultAccount(); 
+    this.setState({defaultAccount});
+  }
 
   onAccountChange = event => {
     this.setState({ account: event.target.value });

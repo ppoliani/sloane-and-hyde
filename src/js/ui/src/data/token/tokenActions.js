@@ -3,7 +3,7 @@ import promisify from 'es6-promisify'
 import {Map} from 'immutable'
 import {partial} from '../../../../common/fn'
 import {contract as SLADCoinContract} from '../../../../common/eth/contracts/SLADCoin'
-import {getAccounts} from '../../../../common/eth'
+import {getDefaultAccount} from '../../../../common/eth'
 import {login} from '../../services/crypto' 
 import fetch from '../../services/api'
 
@@ -18,12 +18,10 @@ export const getBalanceOf = async account => {
 
 export const transfer = async (to, amount) => {
   try {
-    const accounts = getAccounts();
+    const from = await getDefaultAccount();
     const transfer = promisify(SLADCoinContract.transfer);
     console.log(`transfering ${amount} to ${to}`)
-    return await transfer(to, Number(amount), {
-      from: accounts[0]
-    });
+    return await transfer(to, Number(amount), {from});
   } catch (err) {
     console.log('Error while transfering balance', err);
   }
