@@ -9,7 +9,7 @@ const listenToEvents = SLADCoinContract => listener => {
   SLADCoinContract.LogWhitelistUpdated().watch(listener);
 }
  
-const CONTRACT_ADDR = '0x2f74ae73471b3e4b85ee57115aec668c2896e80c';
+const CONTRACT_ADDR = '0x7d74d3679fd1aba51e72331f14a800d4acb1e63d';
 const contract = getWeb3().eth.contract(sladCoinContractDefinition.abi).at(CONTRACT_ADDR);
 
 module.exports = {
