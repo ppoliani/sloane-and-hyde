@@ -6,10 +6,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ganache-cli --mnemonic 'tone rent bomb bean benefit minute wreck space club toilet lyrics unknown'"
   },
   "author": "",
   "dependencies": {
+    "ganache-cli": "^6.0.3",
     "zeppelin-solidity": "^1.5.0"
   }
 }

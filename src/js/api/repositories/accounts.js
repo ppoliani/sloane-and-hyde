@@ -27,9 +27,12 @@ const manageWhitelist = async (account, isWhitelisted, name, iban, email='') => 
   const web3 = getWeb3();
   const from = await getDefaultAccount();
   const manageWhitelist = promisify(SLADCoinContract.manageWhitelist);
+  const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
 
   try {
     const result = await manageWhitelist(account, isWhitelisted, {from, gas: 900000});
+    const addrs = await getWhitelistAddresses();
+    const whitelist = await 
     await firebase.database()
       .ref(`/accounts/${account}`)
       .set(createAccount(name, iban, email));

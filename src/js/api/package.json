@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "bin/index.js",
   "scripts": {
-    "start": "NODE_ENV=development ./node_modules/.bin/nodemon ./bin/index.js"
+    "start": "NODE_ENV=development ./node_modules/.bin/nodemon ./bin/index.js",
+    "test": "node_modules/.bin/ava ./**/*.test.js"
   },
   "dependencies": {
+    "ava": "^0.24.0",
     "dotenv": "^4.0.0",
     "ethereumjs-util": "^5.1.3",
     "firebase": "^4.9.0",

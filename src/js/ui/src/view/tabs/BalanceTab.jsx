@@ -8,7 +8,7 @@ import { CircularProgress } from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
 import PieChart from "../charts/pieChart";
-import { getAccounts } from '../../services/eth/index'
+import {getAccounts} from '../../../../common/eth/index'
 
 class BalanceTab extends Component {
   state = {
