@@ -5,9 +5,7 @@ const match = (bidOrders, askOrders) => matchOrders(Map(), bidOrders, askOrders)
 
 const fillOrder = (order, qty) => {
   const orderQty = order.get('qty');
-  const filled = qty >= orderQty
-    ? orderQty
-    : orderQty - qty;
+  const filled = qty >= orderQty ? orderQty : qty;
 
   return order
     .set('filled', filled + order.get('filled', 0))
