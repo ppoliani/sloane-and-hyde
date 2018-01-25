@@ -94,8 +94,6 @@ test('match orders should fill multiple orders', async t => {
     {id: 10, qty: 50, price: 40, filled: 50, type: 'bid'},
   ];
 
-  debugger;
   const result = [...match(bidOrders, askOrders).values()].map(o => o.toJS());
-
   t.deepEqual(result, expected);
 });
