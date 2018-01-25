@@ -10,17 +10,20 @@ import TabContent from './TabContent'
 import PieChart from "../charts/pieChart";
 import {getDefaultAccount} from '../../../../common/eth/index'
 import OrderBook from '../trading/OrderBook'
+import OrderInput from '../trading/OrderInput'
 
 class BalanceTab extends Component {
   state = {
     defaultAccount: null,
     account: '',
-    balance: AsyncData.Empty()
+    balance: AsyncData.Empty(),
+    ownBalance: null
   };
 
   async componentDidMount() {
     const defaultAccount = await getDefaultAccount(); 
-    this.setState({defaultAccount});
+    const ownBalance = await this.props.getBalanceOf(defaultAccount)
+    this.setState({defaultAccount, ownBalance: ownBalance.toNumber()});
   }
 
   onAccountChange = event => {
@@ -81,9 +84,10 @@ class BalanceTab extends Component {
   render() {
     return (
       <TabContent>
+        <OrderBook />
+        <OrderInput ownBalance={this.state.ownBalance} />
         {this.renderForm()}
         <PieChart balances={this.props.balances} defaultAccount={this.state.defaultAccount} />
-        <OrderBook />
       </TabContent>
     )
   }

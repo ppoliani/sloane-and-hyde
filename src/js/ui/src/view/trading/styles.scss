@@ -1,0 +1,54 @@
+#order-book {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 200px;
+}
+
+#order-book * {
+  color: black
+}
+
+.ordersWrapper {
+  height: 100px;
+  overflow: scroll; // padding-top: 5px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+#spread {
+  height: 30px;
+  text-align: center;
+  font-size: 18px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#bids {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#bids>div {
+  border: 1px solid red;
+  margin: 2px;
+}
+
+#bids div:hover {
+  background-color: rgba(255, 0, 0, 0.199);
+}
+
+#asks>div {
+  border: 1px solid green;
+  margin: 2px;
+}
+
+#asks div:hover {
+  background-color: rgba(0, 128, 0, 0.336);
+}
