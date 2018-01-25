@@ -1,6 +1,6 @@
 const test = require('ava')
 const {fromJS} = require('immutable')
-const {match} = require('./mathing')
+const {match} = require('./matching')
 
 test.beforeEach(t => {
   t.context.bidOrders = fromJS([
