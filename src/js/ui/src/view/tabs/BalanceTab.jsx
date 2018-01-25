@@ -9,6 +9,7 @@ import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
 import PieChart from "../charts/pieChart";
 import {getDefaultAccount} from '../../../../common/eth/index'
+import OrderBook from '../trading/OrderBook'
 
 class BalanceTab extends Component {
   state = {
@@ -82,6 +83,7 @@ class BalanceTab extends Component {
       <TabContent>
         {this.renderForm()}
         <PieChart balances={this.props.balances} defaultAccount={this.state.defaultAccount} />
+        <OrderBook />
       </TabContent>
     )
   }
