@@ -16,10 +16,20 @@ test.beforeEach(t => {
   ]);
 });
 
-test('match order should return empty array if no orders where filled', async t => {
+test('match orders should return empty array if no orders where filled', async t => {
   const {bidOrders, askOrders} = t.context;
   const result = [...match(bidOrders, askOrders).values()];
 
+  t.deepEqual(result, []);
+});
+
+test('match orders should return an empty array if there is no bidOrders available', async t => {
+  const result = [...match(fromJS([]), t.context.askOrders).values()];
+  t.deepEqual(result, []);
+});
+
+test('match orders should return an empty array if there is no askOrders available', async t => {
+  const result = [...match(t.context.bidOrders, fromJS([]), ).values()];
   t.deepEqual(result, []);
 });
 
