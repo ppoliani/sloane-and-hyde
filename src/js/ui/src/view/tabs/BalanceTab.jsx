@@ -82,12 +82,14 @@ class BalanceTab extends Component {
   }
 
   render() {
+    const {fetchOrders, submitOrder, balances} = this.props;
+
     return (
       <TabContent>
-        <OrderBook />
-        <OrderInput submitOrder={this.props.submitOrder} ownBalance={this.state.ownBalance} />
+        <OrderBook fetchOrders={fetchOrders}/>
+        <OrderInput submitOrder={submitOrder} ownBalance={this.state.ownBalance} />
         {this.renderForm()}
-        <PieChart balances={this.props.balances} defaultAccount={this.state.defaultAccount} />
+        <PieChart balances={balances} defaultAccount={this.state.defaultAccount} />
       </TabContent>
     )
   }
