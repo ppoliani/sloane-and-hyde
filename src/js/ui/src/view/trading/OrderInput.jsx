@@ -27,6 +27,12 @@ export default class OrderInput extends Component {
       })
     }
   }
+
+  sendOrder = async () => {
+    const { orderType, size, price } = this.state
+    const balance = await this.props.submitOrder(orderType, size, price);
+  }
+
   render() {
     return (
       <div>
@@ -34,7 +40,7 @@ export default class OrderInput extends Component {
         <input type="text" name="orderBalance" value={this.state.orderBalance} onChange={this.inputUpdate} />
         <input type="radio" value="BUY" name="orderType" /> BUY
         <input type="radio" value="SELL" name="orderType" /> SELL
-        <button>Send Order</button>
+        <button onClick={this.sendOrder} >Send Order</button>
       </div>
     )
   }
