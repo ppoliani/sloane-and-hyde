@@ -1,16 +1,26 @@
-const {getOrders, splitOrders} = require('../repositories/orders')
+const {getOrders, splitOrders, upsertOrders, triggerOrderMathing} = require('../repositories/orders')
 
 const createOrder = async (ctx) => {
-  ctx.body = 'Not Implemented!';
+  try {
+    await triggerOrderMathing(ctx.request.body, ctx.state.user);
+
+    ctx.body = result;
+  }
+  catch(err) {
+    ctx.status = 500;
+    ctx.body = HttpError(500, 'Error');
+  }
 }
 
 const fetchOrders = async (ctx) => {
-  const orders = await getOrders();
-  
-  ctx.body = {
-    orders: splitOrders(orders),
-    msg:`Orders for User: ${ctx.state.user}`
-  };
+  try {
+    const orders = await getOrders();
+    ctx.body = splitOrders(orders);
+  }
+  catch(err) {
+    ctx.status = 500;
+    ctx.body = HttpError(500, 'Error');
+  }
 }
 
 

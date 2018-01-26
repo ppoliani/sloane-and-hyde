@@ -18,18 +18,18 @@ test.beforeEach(t => {
 
 test('match orders should return empty array if no orders where filled', async t => {
   const {bidOrders, askOrders} = t.context;
-  const result = [...match(bidOrders, askOrders).values()];
+  const result = [...match(bidOrders, askOrders)];
 
   t.deepEqual(result, []);
 });
 
 test('match orders should return an empty array if there is no bidOrders available', async t => {
-  const result = [...match(fromJS([]), t.context.askOrders).values()];
+  const result = [...match(fromJS([]), t.context.askOrders)];
   t.deepEqual(result, []);
 });
 
 test('match orders should return an empty array if there is no askOrders available', async t => {
-  const result = [...match(t.context.bidOrders, fromJS([]), ).values()];
+  const result = [...match(t.context.bidOrders, fromJS([]), )];
   t.deepEqual(result, []);
 });
 
@@ -42,7 +42,7 @@ test('match orders should partially fill the first order', async t => {
     {id: 7, qty: 0, price: 30, filled: 50, type: 'bid'}
   ];
 
-  const result = [...match(bidOrders, askOrders).values()].map(o => o.toJS());
+  const result = [...match(bidOrders, askOrders)].map(o => o.toJS());
   t.deepEqual(result, expected);
 });
 
@@ -59,7 +59,7 @@ test('match orders should fill multiple orders', async t => {
     {id: 8, qty: 50, price: 30, filled: 50, type: 'bid'}
   ];
 
-  const result = [...match(bidOrders, askOrders).values()].map(o => o.toJS());
+  const result = [...match(bidOrders, askOrders)].map(o => o.toJS());
 
   t.deepEqual(result, expected);
 });
@@ -81,7 +81,7 @@ test('match orders should fill multiple orders', async t => {
   ];
 
   debugger;
-  const result = [...match(bidOrders, askOrders).values()].map(o => o.toJS());
+  const result = [...match(bidOrders, askOrders)].map(o => o.toJS());
 
   t.deepEqual(result, expected);
 });
@@ -104,6 +104,6 @@ test('match orders should fill multiple orders', async t => {
     {id: 10, qty: 50, price: 40, filled: 50, type: 'bid'},
   ];
 
-  const result = [...match(bidOrders, askOrders).values()].map(o => o.toJS());
+  const result = [...match(bidOrders, askOrders)].map(o => o.toJS());
   t.deepEqual(result, expected);
 });

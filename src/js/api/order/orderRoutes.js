@@ -8,10 +8,10 @@ const routes = {
     fn: partial(createOrder)
   },
   
-  '/orders': {
+  '/orders$': {
     method: 'get',
     fn: partial(fetchOrders),
-    auth: false
+    auth: true
   }
 };
 
