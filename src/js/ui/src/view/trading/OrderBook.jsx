@@ -2,80 +2,24 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import {compare} from '../../utils/utils'
 import './styles.scss'
+import {fetchOrders} from '../../data/token/tokenActions'
 
 export default class OrderBook extends Component {
-  constructor() {
-    super()
 
-    this.state = {
-      bids: [
-        {
-          price: 1,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 1,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 1,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 12,
-          quantity: 33,
-          owners: ['123', '456']
-        },
-        {
-          price: 11,
-          quantity: 23,
-          owners: ['123', '456']
-        }
-      ],
-      asks: [
-        {
-          price: 7,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 127,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 174,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 17,
-          quantity: 3,
-          owners: ['123', '456']
-        },
-        {
-          price: 17,
-          quantity: 73,
-          owners: ['123', '456']
-        },
-        {
-          price: 61,
-          quantity: 53,
-          owners: ['123', '456'],
-          owned: true
-        }
-      ]
-    }
+  async componentDidMount() {
+    const orders = await fetchOrders()
+    console.log('orders', orders)
+    this.setState({asks: orders.askOrders, bids: orders.bidOrders})
   }
 
   renderBids = () => {
+    if(!this.state.bids) {
+      return ''
+    }
     const orderedBids = this.state.bids.sort(compare)
     return orderedBids.map((bid, i) => (
       <div className="order-item" key={i}>
-        <span>Price: {bid.price}</span> a<span>Qnt: {bid.quantity}</span>
+        <span>Price: {bid.price}</span> a<span>Qnt: {bid.qty}</span>
       </div>
     ))
   }
@@ -91,11 +35,15 @@ export default class OrderBook extends Component {
   }
 
   renderAsks = () => {
+    if (!this.state.asks) {
+      return ''
+    }
+
     const orderedAsks = this.state.asks.sort(compare)
 
     return orderedAsks.map((ask, i) => (
       <div className="order-item" key={i}>
-        <span>Price: {ask.price}</span> <span>Qnt: {ask.quantity}</span>
+        <span>Price: {ask.price}</span> <span>Qnt: {ask.qty}</span>
         {ask.owned ? this.cancelOrderButton(true) : this.cancelOrderButton()}
       </div>
     ))

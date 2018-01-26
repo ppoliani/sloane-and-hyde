@@ -53,11 +53,23 @@ export const addToWhitelist = async(account, isWhitelisted, name, iban, email) =
   }
 }
 
-export const submitOrder = async (orderType, quantity, price) => {
+export const submitOrder = async (orderType, size, price) => {
   try {
-    await fetch(`${process.env.API_URL}/accounts/orders`, 'POST', { orderType, quantity, price });
+    await fetch(`${process.env.API_URL}/orders`, 'POST', { orderType, size, price });
   }
   catch (err) {
     console.log('Error submitting your order', err);
+  }
+}
+
+export const fetchOrders = async () => {
+  console.log('fetching orders..')
+  try {
+    const orders = await fetch(`${process.env.API_URL}/orders`);
+    console.log('orders in promise: ', orders)
+    return orders  
+  }
+  catch (err) {
+    console.log('Error fetching orders', err);
   }
 }

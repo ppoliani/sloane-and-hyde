@@ -8,7 +8,7 @@ import TransactionTab from './TransactionTab'
 class TabContainer extends Component {
   render() {
     const { handleTabChange, selectedTab, getBalanceOf, balances, transfer, addToWhitelist, role, submitOrder} = this.props;
-
+    
     return (
       <AppBar position='static'>
         <Tabs value={selectedTab} onChange={handleTabChange} centered>
