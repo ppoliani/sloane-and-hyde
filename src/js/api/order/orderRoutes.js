@@ -1,16 +1,17 @@
 const {partial} = require('../../common/fn')
-const {createOrder, getOrders} = require('./orderApi')
+const {createOrder, fetchOrders} = require('./orderApi')
 
 const routes = {
   '/orders': {
     method: 'post',
+    auth: true,
     fn: partial(createOrder)
   },
   
   '/orders': {
     method: 'get',
-    fn: partial(getOrders),
-    auth: true
+    fn: partial(fetchOrders),
+    auth: false
   }
 };
 
