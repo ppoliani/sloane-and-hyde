@@ -13,8 +13,10 @@ const applyMiddlewares = require('../core/middleware')
 const setupRoutes = require('../core/routes')
 const logger = require('../helpers/logger')
 const {initAuth} = require('../auth')
+const {initDB} = require('../core/db')
 
 const app = new Koa();
+initDB();
 initAuth();
 applyMiddlewares(app);
 const router = setupRoutes(Router());

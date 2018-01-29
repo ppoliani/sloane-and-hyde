@@ -1,3 +1,4 @@
+const {HttpError} = require('../core/api')
 const {manageWhitelist} = require('../repositories/accounts')
 
 const updateWhitelist = async (ctx) => {

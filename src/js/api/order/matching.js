@@ -13,7 +13,7 @@ const fillOrder = (order, qty) => {
 }
 
 const matchOrders = (updatedOrders, bidOrders, askOrders) => {
-  if(bidOrders.size === 0 || askOrders.size === 0) return Map();
+  if(bidOrders.size === 0 || askOrders.size === 0) return updatedOrders;
 
   let topAsk = askOrders.get(0);
   let topBid = bidOrders.get(0);

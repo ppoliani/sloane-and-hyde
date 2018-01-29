@@ -1,8 +1,8 @@
-const firebase = require('firebase')
 const {promisify} = require('util')
 const {getWeb3, getTransactionReceiptMined} = require('../../common/eth')
 const {contract: SLADCoinContract, listenToEvents} = require('../../common/eth/contracts/SLADCoin')
 const {getDefaultAccount} = require('../../common/eth')
+const {db} = require('../core/db')
 
 const loadAccountData = async account => {
   try {
@@ -35,7 +35,7 @@ const manageWhitelist = async (account, isWhitelisted, name, iban, email='') => 
       console.log('>>>>>>>>', event)
     })
     const addrs = await getWhitelistAddresses();
-    await firebase.database()
+    await db()
       .ref(`/accounts/${account}`)
       .set(createAccount(name, iban, email));
   }

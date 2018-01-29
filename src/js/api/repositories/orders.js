@@ -1,6 +1,6 @@
-const firebase = require('firebase')
 const {promisify} = require('util')
 const {fromJS, Map, List} = require('immutable')
+const {db} = require('../core/db')
 const {match} = require('../order/matching')
 
 const triggerOrderMathing = async (order, account) => {
@@ -16,7 +16,7 @@ const triggerOrderMathing = async (order, account) => {
   const matchedOrders = match(sortedBidOrders, sortedAskOrders);
 
   return matchedOrders.size > 0
-    ? await upsertOrders(upsertOrders)
+    ? await upsertOrders(matchedOrders)
     : await upsertOrder(newOrder, account);
 }
 
@@ -40,22 +40,22 @@ const upsertOrders = async orders => {
 }
 
 const upsertOrder = async (order, account) => {
-  const orderResult = await firebase.database().ref(`/orders`).push(order);
-  await firebase.database().ref(`/accounts/${account}/orders/${orderResult.key}`).set(true);
+  const orderResult = await db().ref(`/orders`).push(order);
+  await db().ref(`/accounts/${account}/orders/${orderResult.key}`).set(true);
 }
 
 const splitOrders = orders => 
   orders.reduce((acc, order, key) => {
     return order.get('type') === 'ask'
-      ? acc.update('askOrders', askOrders => askOrders.push(order.set('key', key)))
-      : acc.update('bidOrders', bidOrders => bidOrders.push(order.set('key', key)));
+      ? acc.update('askOrders', askOrders => askOrders.push(order.set('id', key)))
+      : acc.update('bidOrders', bidOrders => bidOrders.push(order.set('id', key)));
   }, Map({
     askOrders: List(),
     bidOrders: List()
   }))
 
 const getOrders = async order => { 
-  const orders = await firebase.database()
+  const orders = await db()
     .ref(`/orders`)
     .once('value');
   

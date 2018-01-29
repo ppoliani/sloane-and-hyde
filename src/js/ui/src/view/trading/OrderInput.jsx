@@ -12,7 +12,7 @@ export default class OrderInput extends Component {
   state = {
     maxBalance: 9999,
     qty: '',
-    type: '',
+    type: 'bid',
     price: '',
     selectedTab: 0
   }
@@ -46,11 +46,12 @@ export default class OrderInput extends Component {
   sendOrder = async (e) => {
     e.preventDefault()
     const {type, qty, price} = this.state
-    const balance = await this.props.submitOrder({type, qty, price});
+    const balance = await this.props.submitOrder({type, qty: Number(qty), price: Number(price)});
+    this.props.onOrderSubmitted()
   }
 
   handleTabChange = (event, selectedTab) => {
-    const type = selectedTab === 0 ? 'buy' : 'sell';
+    const type = selectedTab === 0 ? 'bid' : 'ask';
     this.setState({selectedTab, type});
   }
 
