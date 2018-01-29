@@ -3,28 +3,17 @@ import Maybe from 'folktale/maybe'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
-import { Grid, Col, Row } from 'react-flexbox-grid';
-import { CircularProgress } from 'material-ui/Progress'
+import {Grid, Col, Row} from 'react-flexbox-grid';
+import {CircularProgress} from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
 import PieChart from "../charts/pieChart";
-import {getDefaultAccount} from '../../../../common/eth/index'
-import OrderBook from '../trading/OrderBook'
-import OrderInput from '../trading/OrderInput'
 
 class BalanceTab extends Component {
   state = {
-    defaultAccount: null,
     account: '',
     balance: AsyncData.Empty(),
-    ownBalance: null
   };
-
-  async componentDidMount() {
-    const defaultAccount = await getDefaultAccount(); 
-    const ownBalance = await this.props.getBalanceOf(defaultAccount)
-    this.setState({defaultAccount, ownBalance: ownBalance.toNumber()});
-  }
 
   onAccountChange = event => {
     this.setState({ account: event.target.value });
@@ -82,14 +71,12 @@ class BalanceTab extends Component {
   }
 
   render() {
-    const {fetchOrders, submitOrder, balances} = this.props;
+    const {balances, defaultAccount} = this.props;
 
     return (
       <TabContent>
-        <OrderBook fetchOrders={fetchOrders}/>
-        <OrderInput submitOrder={submitOrder} ownBalance={this.state.ownBalance} />
         {this.renderForm()}
-        <PieChart balances={balances} defaultAccount={this.state.defaultAccount} />
+        <PieChart balances={balances} defaultAccount={defaultAccount} />
       </TabContent>
     )
   }

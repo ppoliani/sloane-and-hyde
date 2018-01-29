@@ -3,8 +3,8 @@ import Maybe from 'folktale/maybe'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
-import { Grid, Col, Row } from 'react-flexbox-grid';
-import { CircularProgress } from 'material-ui/Progress'
+import {Grid, Col, Row} from 'react-flexbox-grid'
+import {CircularProgress} from 'material-ui/Progress'
 import AsyncData from '../../data/core/AsyncData'
 import TabContent from './TabContent'
 

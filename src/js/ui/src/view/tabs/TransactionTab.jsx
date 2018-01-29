@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import TabContent from './TabContent'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'

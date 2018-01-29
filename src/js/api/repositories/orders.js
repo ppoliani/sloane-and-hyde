@@ -20,7 +20,6 @@ const triggerOrderMathing = async (order, account) => {
     : await upsertOrder(newOrder, account);
 }
 
-
 const sortOrders = (orders, type) => {
   const retValue = type === 'ask' ? 1 : -1;
 
