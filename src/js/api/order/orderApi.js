@@ -1,11 +1,11 @@
 const {HttpError} = require('../core/api')
-const {getOrders, splitOrders, upsertOrders, triggerOrderMathing} = require('../repositories/orders')
+const {filterFilledOrders, getOrders, splitOrders, upsertOrders, triggerOrderMathing} = require('../repositories/orders')
 
 const createOrder = async (ctx) => {
   try {
     await triggerOrderMathing(ctx.request.body, ctx.state.user);
 
-    ctx.body = result;
+    ctx.status = 204;
   }
   catch(err) {
     ctx.status = 500;
@@ -16,7 +16,12 @@ const createOrder = async (ctx) => {
 const fetchOrders = async (ctx) => {
   try {
     const orders = await getOrders();
-    ctx.body = splitOrders(orders);
+    const ordersGroup = splitOrders(orders);
+
+    ctx.body = {
+      askOrders: filterFilledOrders(ordersGroup.get('askOrders')),
+      bidOrders: filterFilledOrders(ordersGroup.get('bidOrders'))
+    };
   }
   catch(err) {
     ctx.status = 500;

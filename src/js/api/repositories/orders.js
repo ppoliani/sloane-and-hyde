@@ -11,12 +11,12 @@ const triggerOrderMathing = async (order, account) => {
     ? splitedOrders.update('askOrders', askOrders => askOrders.push(fromJS(newOrder)))
     : splitedOrders.update('bidOrders', bidOrders => bidOrders.push(fromJS(newOrder)));
 
-  const sortedBidOrders = sortOrders(finalOrderList.get('bidOrders'), 'bid')
-  const sortedAskOrders = sortOrders(finalOrderList.get('askOrders'), 'ask')
+  const sortedBidOrders = filterFilledOrders(sortOrders(finalOrderList.get('bidOrders'), 'bid'))
+  const sortedAskOrders = filterFilledOrders(sortOrders(finalOrderList.get('askOrders'), 'ask'))
   const matchedOrders = match(sortedBidOrders, sortedAskOrders);
 
   return matchedOrders.size > 0
-    ? await upsertOrders(matchedOrders)
+    ? await upsertOrders(matchedOrders, account)
     : await upsertOrder(newOrder, account);
 }
 
@@ -35,13 +35,19 @@ const sortOrders = (orders, type) => {
   });
 }
 
-const upsertOrders = async orders => {
-  console.log('>>>>>>>>', orders.toJS())
+const upsertOrders = async (orders, account) => {
+  const batch = orders.map(async order => {
+    const id = order.get('id');
+    return id 
+      ? await db().ref(`/orders/${id}`).set(order.toJS())
+      : await upsertOrder(order.toJS(), account)
+  })
+  return await Promise.all(batch);
 }
 
 const upsertOrder = async (order, account) => {
   const orderResult = await db().ref(`/orders`).push(order);
-  await db().ref(`/accounts/${account}/orders/${orderResult.key}`).set(true);
+  return await db().ref(`/accounts/${account}/orders/${orderResult.key}`).set(true);
 }
 
 const splitOrders = orders => 
@@ -54,6 +60,8 @@ const splitOrders = orders =>
     bidOrders: List()
   }))
 
+const filterFilledOrders = orders => orders.filter(o => o.get('qty') > 0);
+
 const getOrders = async order => { 
   const orders = await db()
     .ref(`/orders`)
@@ -62,4 +70,4 @@ const getOrders = async order => {
   return fromJS(orders.toJSON() || []);
 }
 
-module.exports = {getOrders, splitOrders, upsertOrder, upsertOrders, triggerOrderMathing}
+module.exports = {filterFilledOrders, getOrders, splitOrders, upsertOrder, upsertOrders, triggerOrderMathing}

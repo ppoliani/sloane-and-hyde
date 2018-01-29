@@ -18,7 +18,7 @@ const matchOrders = (updatedOrders, bidOrders, askOrders) => {
   let topAsk = askOrders.get(0);
   let topBid = bidOrders.get(0);
 
-  if(topBid.get('price') < topAsk.get('price')) return updatedOrders.values();
+  if(topBid.get('price') < topAsk.get('price')) return updatedOrders;
 
   // update orders
   const askQty = topAsk.get('qty');

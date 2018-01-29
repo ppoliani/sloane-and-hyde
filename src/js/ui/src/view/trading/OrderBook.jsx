@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import {compare} from '../../utils/utils'
+import {sortOrders} from '../../utils/utils'
 import './styles.scss'
 
 export default class OrderBook extends Component {
@@ -10,10 +10,10 @@ export default class OrderBook extends Component {
     if(!bids) {
       return ''
     }
-    const orderedBids = bids.sort(compare)
+    const orderedBids = sortOrders(bids, 'bid');
     return orderedBids.map((bid, i) => (
       <div className='order-item' key={i}>
-        <span>Price: {bid.price}</span> a<span>Qnt: {bid.qty}</span>
+        <span>Price: {bid.price}</span><span>Qnt: {bid.qty}</span>
       </div>
     ))
   }
@@ -35,7 +35,7 @@ export default class OrderBook extends Component {
       return ''
     }
 
-    const orderedAsks = asks.sort(compare)
+    const orderedAsks = sortOrders(asks, 'ask');
 
     return orderedAsks.map((ask, i) => (
       <div className='order-item' key={i}>
