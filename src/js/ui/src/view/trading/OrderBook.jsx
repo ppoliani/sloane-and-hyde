@@ -2,17 +2,15 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import {compare} from '../../utils/utils'
 import './styles.scss'
-import {fetchOrders} from '../../data/token/tokenActions'
 
 export default class OrderBook extends Component {
   state = {
-    bids: [],
-    asks: []
+    asks: [],
+    bids: []
   }
-
-  async componentDidMount() {
-    const orders = await fetchOrders()
-    console.log('orders', orders)
+  
+  async componentWillMount() {
+    const orders = await this.props.fetchOrders()
     this.setState({asks: orders.askOrders, bids: orders.bidOrders})
   }
 

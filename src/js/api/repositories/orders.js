@@ -46,10 +46,10 @@ const upsertOrder = async (order, account) => {
 }
 
 const splitOrders = orders => 
-  orders.reduce((acc, order) => {
+  orders.reduce((acc, order, key) => {
     return order.get('type') === 'ask'
-      ? acc.update('askOrders', askOrders => askOrders.push(order),)
-      : acc.update('bidOrders', bidOrders => bidOrders.push(order));
+      ? acc.update('askOrders', askOrders => askOrders.push(order.set('key', key)))
+      : acc.update('bidOrders', bidOrders => bidOrders.push(order.set('key', key)));
   }, Map({
     askOrders: List(),
     bidOrders: List()

@@ -24,7 +24,7 @@ class Home extends Component {
   }
 
   render() {
-    const {getBalanceOf, transfer, addToWhitelist, accountData, submitOrder} = this.props;
+    const {getBalanceOf, transfer, addToWhitelist, accountData, submitOrder, fetchOrders} = this.props;
     const {balances, selectedTab} = this.state;
 
     return (
@@ -35,6 +35,7 @@ class Home extends Component {
           selectedTab={selectedTab}
           balances={balances}
           getBalanceOf={getBalanceOf}
+          fetchOrders={fetchOrders}
           transfer={transfer}
           addToWhitelist={addToWhitelist}
           submitOrder={submitOrder}
