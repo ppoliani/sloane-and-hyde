@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { submitOrder } from '../../data/token/tokenActions'
 
 export default class OrderInput extends Component {
   state = {
@@ -30,7 +31,7 @@ export default class OrderInput extends Component {
 
   sendOrder = async () => {
     const { orderType, size, price } = this.state
-    const balance = await this.props.submitOrder(orderType, size, price);
+    const balance = await submitOrder(orderType, size, price);
   }
 
   render() {

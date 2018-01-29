@@ -66,7 +66,6 @@ export const fetchOrders = async () => {
   console.log('fetching orders..')
   try {
     const orders = await fetch(`${process.env.API_URL}/orders`);
-    console.log('orders in promise: ', orders)
     return orders  
   }
   catch (err) {

@@ -5,6 +5,10 @@ import './styles.scss'
 import {fetchOrders} from '../../data/token/tokenActions'
 
 export default class OrderBook extends Component {
+  state = {
+    bids: [],
+    asks: []
+  }
 
   async componentDidMount() {
     const orders = await fetchOrders()
