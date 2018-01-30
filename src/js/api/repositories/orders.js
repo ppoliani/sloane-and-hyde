@@ -4,7 +4,8 @@ const {db} = require('../core/db')
 const {match} = require('../order/matching')
 
 const triggerOrderMathing = async (order, account) => {
-  const newOrder = {...order, ts: Number(new Date())}
+  const newOrderId = db().ref(`/orders`).push().key;
+  const newOrder = {...order, id: newOrderId, ts: Number(new Date())}
   const orders = await getOrders();
   const splitedOrders = splitOrders(orders)
   const finalOrderList = newOrder.type === 'ask' 
@@ -13,11 +14,14 @@ const triggerOrderMathing = async (order, account) => {
 
   const sortedBidOrders = filterFilledOrders(sortOrders(finalOrderList.get('bidOrders'), 'bid'))
   const sortedAskOrders = filterFilledOrders(sortOrders(finalOrderList.get('askOrders'), 'ask'))
-  const matchedOrders = match(sortedBidOrders, sortedAskOrders);
+  const [matchedOrders, matches] = match(sortedBidOrders, sortedAskOrders);
 
-  return matchedOrders.size > 0
-    ? await upsertOrders(matchedOrders, account)
-    : await upsertOrder(newOrder, account);
+  const saveMatchesReq = saveMatches(matches);
+  const saveOrdersReq = matchedOrders.size > 0
+    ? upsertOrders(matchedOrders, account)
+    : upsertOrder(newOrder, account);
+
+  return await Promise.all([saveMatchesReq, saveOrdersReq])
 }
 
 const sortOrders = (orders, type) => {
@@ -35,12 +39,18 @@ const sortOrders = (orders, type) => {
   });
 }
 
+const saveMatches = async matches => {
+  const batch = matches.map(async match => db().ref(`/matches`).push(match.toJS()))
+  return await Promise.all(batch);
+}
+
 const upsertOrders = async (orders, account) => {
   const batch = orders.map(async order => {
     const id = order.get('id');
-    return id 
-      ? await db().ref(`/orders/${id}`).set(order.toJS())
-      : await upsertOrder(order.toJS(), account)
+    return await db().ref(`/orders/${id}`).set(order.toJS());
+    // return id 
+    //   ? await db().ref(`/orders/${id}`).set(order.toJS())
+    //   : await upsertOrder(order.toJS(), account)
   })
   return await Promise.all(batch);
 }
