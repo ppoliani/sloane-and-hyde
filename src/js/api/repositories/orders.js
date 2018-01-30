@@ -48,9 +48,6 @@ const upsertOrders = async (orders, account) => {
   const batch = orders.map(async order => {
     const id = order.get('id');
     return await db().ref(`/orders/${id}`).set(order.toJS());
-    // return id 
-    //   ? await db().ref(`/orders/${id}`).set(order.toJS())
-    //   : await upsertOrder(order.toJS(), account)
   })
   return await Promise.all(batch);
 }
