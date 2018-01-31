@@ -2,14 +2,14 @@ import {createAction} from 'redux-actions'
 import promisify from 'es6-promisify'
 import {Map} from 'immutable'
 import {partial} from '../../../../common/fn'
-import {contract as SLADCoinContract} from '../../../../common/eth/contracts/SLADCoin'
+import {contract as SLHToken} from '../../../../common/eth/contracts/SLHToken'
 import {getDefaultAccount} from '../../../../common/eth'
 import {login} from '../../services/crypto' 
 import fetch from '../../services/api'
 
 export const getBalanceOf = async account => {
   try {
-    const getBalanceOf = promisify(SLADCoinContract.balanceOf);
+    const getBalanceOf = promisify(SLHToken.balanceOf);
     return await getBalanceOf(account);
   } catch (err) {
     console.log('Error reading the balance of an account', err);
@@ -19,7 +19,7 @@ export const getBalanceOf = async account => {
 export const transfer = async (to, amount) => {
   try {
     const from = await getDefaultAccount();
-    const transfer = promisify(SLADCoinContract.transfer);
+    const transfer = promisify(SLHToken.transfer);
     console.log(`transfering ${amount} to ${to}`)
     return await transfer(to, Number(amount), {from});
   } catch (err) {
@@ -29,8 +29,8 @@ export const transfer = async (to, amount) => {
 
 export const getAllBalances = async () => { 
   try {
-    const getBalanceOf = promisify(SLADCoinContract.balanceOf);
-    const getWhitelistAddresses = promisify(SLADCoinContract.getWhitelistAddresses);
+    const getBalanceOf = promisify(SLHToken.balanceOf);
+    const getWhitelistAddresses = promisify(SLHToken.getWhitelistAddresses);
     const whitelistAddresses = await getWhitelistAddresses();
 
     return await whitelistAddresses.reduce(async (accP, addr) => {

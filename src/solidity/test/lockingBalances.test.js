@@ -1,11 +1,11 @@
 const assertRevert = require('./helpers/assertRevert')
 const {access} = require('fs');
 
-const SLADCoin = artifacts.require('SLADCoin');
+const SLHToken = artifacts.require('SLHToken');
 
-contract('SLADCoin Lockings', accounts => {
+contract('SLHToken Lockings', accounts => {
   it('should lock requested amount', async () => {
-    const instance = await SLADCoin.deployed();
+    const instance = await SLHToken.deployed();
     // add to whitelist
     await instance.manageWhitelist.sendTransaction(accounts[1], true, { from: accounts[0] })
     // refill the account1
@@ -20,9 +20,9 @@ contract('SLADCoin Lockings', accounts => {
 
 });
 
-contract('SLADCoin Lockings', accounts => {
+contract('SLHToken Lockings', accounts => {
   it('should throw if try to send more than unlocked balance', async () => {
-    const instance = await SLADCoin.deployed();
+    const instance = await SLHToken.deployed();
     // instance.getWhitelistAddresses().then(adds => console.log('adds', adds))
     await instance.manageWhitelist(accounts[1], true, { from: accounts[0] })
     // refill the account1
@@ -35,7 +35,7 @@ contract('SLADCoin Lockings', accounts => {
     })
   });
   it('should unlock locked balance', async () => {
-    const instance = await SLADCoin.deployed();
+    const instance = await SLHToken.deployed();
 
     // get current locked balance
     const lockedBalance = await instance.getLockedAmounts.call(accounts[1])
@@ -51,7 +51,7 @@ contract('SLADCoin Lockings', accounts => {
   })
 
   it('should unlock and transfer', async () => {
-    const instance = await SLADCoin.deployed();
+    const instance = await SLHToken.deployed();
 
     // get current locked balance
     const lockedBalanceTwo = await instance.getLockedAmounts.call(accounts[1])

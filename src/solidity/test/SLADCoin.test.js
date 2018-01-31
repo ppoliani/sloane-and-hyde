@@ -1,22 +1,22 @@
-const SLADCoin = artifacts.require('SLADCoin');
+const SLHToken = artifacts.require('SLHToken');
 
-contract('SLADCoin', accounts => {
-  it('should put SLADCoin in the first account', async () => {
-    const instance = await SLADCoin.deployed()
+contract('SLHToken', accounts => {
+  it('should put SLHToken in the first account', async () => {
+    const instance = await SLHToken.deployed()
     const balance = await instance.balanceOf.call(accounts[0])
   
     assert.equal(balance.valueOf(), 1000000, `1000000 wasn't in the first account`);
   });
 
   it('should whitelist owner', async () => {
-    const instance = await SLADCoin.deployed()
+    const instance = await SLHToken.deployed()
     const res = await instance.getWhitelist.call(accounts[0]);
 
     assert.equal(res[0], true, 'Owner was not whitelisted');
   });
 
   it('should update whitelist', async () => {
-    const instance = await SLADCoin.deployed();
+    const instance = await SLHToken.deployed();
     const res = await instance.getWhitelist.call(accounts[1]);
     assert.equal(res[0], false, 'Account 1 is correctly NOT whitelisted');
 
@@ -27,13 +27,13 @@ contract('SLADCoin', accounts => {
   });
 
   it('should return all whitelisted addresses', async () => {
-    const instance = await SLADCoin.deployed()
+    const instance = await SLHToken.deployed()
     const res = await instance.getWhitelistAddresses.call();
     assert.deepEqual(res, [accounts[0], accounts[1]], 'Wrong list of whitelisted addresses');
   });
 
-  it('should not add an addresses to the whitelist addresses if it already exists', async () => {
-    const instance = await SLADCoin.deployed();
+  it('should not add an addresses to the whitelist addresses if it already exists', async () => {SLHToken
+    const instance = await SLHToken.deployed();
     const whitelistAddresses = await instance.getWhitelistAddresses.call();
     assert.deepEqual(whitelistAddresses, [accounts[0], accounts[1]], 'Wrong list of whitelisted addresses');
 
@@ -49,7 +49,7 @@ contract('SLADCoin', accounts => {
     const account_two = accounts[1];
     const amount = 10;
 
-    const instance = await SLADCoin.deployed();
+    const instance = await SLHToken.deployed();
     balance = await instance.balanceOf.call(account_one);
     const account_one_starting_balance = balance.toNumber();
     balance = await instance.balanceOf.call(account_two);

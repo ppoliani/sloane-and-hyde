@@ -1,5 +1,5 @@
-const SLADCoin = artifacts.require('./SLADCoin.sol');
+const SLHToken = artifacts.require('./SLHToken.sol');
 
 module.exports = (deployer) => {
-  deployer.deploy(SLADCoin, 1000000, 'SLADCoin', 'SLADCoin', 18); 
+  deployer.deploy(SLHToken, 1000000, 'SLH', 'SLH', 18); 
 };
