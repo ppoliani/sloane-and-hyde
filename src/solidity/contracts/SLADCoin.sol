@@ -1,51 +1,28 @@
 pragma solidity ^0.4.18;
 
-import "zeppelin-solidity/contracts/token/StandardToken.sol";
-import "zeppelin-solidity/contracts/token/DetailedERC20.sol";
+import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
+import "zeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "./Whitelistable.sol";
 
 /**
    @title Token, an extension of ERC20 token standard
    Uses OpenZeppelin StandardToken.
  */
-contract SLADCoin is StandardToken, DetailedERC20, Ownable {
+contract SLADCoin is StandardToken, DetailedERC20, Ownable, Whitelistable {
   using SafeMath for uint256;
 
   uint256 public totalSupply;
-  mapping(address => WhitelistData) private whitelist;
-  address[] private whitelistAddresses;
   mapping(address => uint256) public lockedAmounts;
 
-  struct WhitelistData {
-    bool status;
-    uint256 index;
-  }
-
-  event LogWhitelistUpdated(address addr, bool status);
-  event LogAddedToWhitelist(address addr);
-
-  function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() {
+  function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() Whitelistable() {
     totalSupply = _supply; // * (10 ** uint256(decimals));
-    whitelist[msg.sender] = WhitelistData(true, whitelistAddresses.push(msg.sender) - 1);
     balances[msg.sender] = totalSupply;
-  }
-
-  modifier isWhitelisted(address addr) {
-    require(whitelist[addr].status);
-    _;
   }
 
   modifier hasEnoughUnlockedBalance(address addr, uint256 _value) {
     require(balances[addr] - lockedAmounts[addr] >= _value);
     _;
-  }
-
-  function getWhitelist(address addr) public view returns (bool, uint256) {
-    return (whitelist[addr].status, whitelist[addr].index);
-  }
-
-  function getWhitelistAddresses() public view returns(address[]) {
-    return whitelistAddresses;
   }
 
   function lockBalance(address addr, uint256 value) onlyOwner() public returns (bool) {
@@ -78,21 +55,5 @@ contract SLADCoin is StandardToken, DetailedERC20, Ownable {
 
   function transfer(address _to, uint256 _value) hasEnoughUnlockedBalance(msg.sender, _value) isWhitelisted(_to) public returns (bool) {
     return super.transfer(_to, _value);
-  }
-
-  //use only one function to add/remove addresses instead of two separated ones.
-  function manageWhitelist(address addr, bool status) onlyOwner() public returns (bool) { 
-    // Insert a new addr to the whitelist
-    if (whitelistAddresses[whitelist[addr].index] != addr) {
-      whitelist[addr] = WhitelistData(status, whitelistAddresses.push(addr) - 1);
-      LogAddedToWhitelist(addr);
-    }
-
-    // update an existing entry
-    whitelist[addr].status = status;
-
-    LogWhitelistUpdated(addr, status);
-
-    return true;
   }
 }
