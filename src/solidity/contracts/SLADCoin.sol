@@ -1,56 +1,20 @@
 pragma solidity ^0.4.18;
 
-import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 import "zeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./Whitelistable.sol";
+import "./LockableToken.sol";
 
 /**
    @title Token, an extension of ERC20 token standard
    Uses OpenZeppelin StandardToken.
  */
-contract SLADCoin is StandardToken, DetailedERC20, Ownable, Whitelistable {
-  using SafeMath for uint256;
-
+contract SLADCoin is LockableToken, DetailedERC20, Whitelistable {
   uint256 public totalSupply;
-  mapping(address => uint256) public lockedAmounts;
 
   function SLADCoin(uint256 _supply, string _name, string _symbol, uint8 _decimals) public DetailedERC20(_name, _symbol, _decimals) Ownable() Whitelistable() {
     totalSupply = _supply; // * (10 ** uint256(decimals));
     balances[msg.sender] = totalSupply;
-  }
-
-  modifier hasEnoughUnlockedBalance(address addr, uint256 _value) {
-    require(balances[addr] - lockedAmounts[addr] >= _value);
-    _;
-  }
-
-  function lockBalance(address addr, uint256 value) onlyOwner() public returns (bool) {
-    require(balances[addr] >= value); //add check to don't lock more than the tokens holded 
-    lockedAmounts[addr] = lockedAmounts[addr].add(value); 
-
-    return true;
-  }
-
-  function unlockBalance(address addr, uint256 value) onlyOwner() public returns (bool) {
-    require(lockedAmounts[addr] >= value); //add check to don't unlock more than the whole balance
-    lockedAmounts[addr] = lockedAmounts[addr].sub(value); 
-
-    return true;
-  }
-
-  function unlockAndTransfer(address _to, address _from, uint256 _value) onlyOwner() public returns (bool) {
-    if (_value >= lockedAmounts[_from]) {
-      lockedAmounts[_from] = 0;
-    } else {
-      lockedAmounts[_from] = lockedAmounts[_from].sub(_value);
-    }
-
-    return transfer(_to, _value);
-  }
-
-  function getLockedAmounts(address addr) public view returns (uint256) {
-    return lockedAmounts[addr];
   }
 
   function transfer(address _to, uint256 _value) hasEnoughUnlockedBalance(msg.sender, _value) isWhitelisted(_to) public returns (bool) {
