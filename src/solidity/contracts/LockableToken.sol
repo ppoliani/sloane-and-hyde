@@ -32,7 +32,6 @@ contract LockableToken is StandardToken, Ownable {
     return lockedAmounts[addr];
   }
 
-
   function unlockAndTransfer(address _to, address _from, uint256 _value) onlyOwner() public returns (bool) {
     if (_value >= lockedAmounts[_from]) {
       lockedAmounts[_from] = 0;

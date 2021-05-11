@@ -6,7 +6,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "ganache-cli --mnemonic 'tone rent bomb bean benefit minute wreck space club toilet lyrics unknown'"
+    "start": "ganache-cli --mnemonic 'excess stem kitten win couch chief usage yard load noodle attack spy'"
   },
   "author": "",
   "dependencies": {

@@ -37,7 +37,7 @@ const manageWhitelist = async (account, isWhitelisted, name, iban, email='') => 
     const addrs = await getWhitelistAddresses();
     await db()
       .ref(`/accounts/${account}`)
-      .set(createAccount(name, iban, email));
+      .set(createAccount(name, onceban, email));
   }
   catch(err) {
     throw err;

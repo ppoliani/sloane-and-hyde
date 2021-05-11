@@ -1,4 +1,4 @@
-const SLHToken = artifacts.require('SLHToken');
+const SLHToken = artifacts.require('SLHTaoken');
 
 contract('SLHToken', accounts => {
   it('should put SLHToken in the first account', async () => {
